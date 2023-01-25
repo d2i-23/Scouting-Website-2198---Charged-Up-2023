@@ -1,71 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scouting Form</title>
 </head>
 <body>
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='overall.css') }}">
+    <link rel = "StyleSheet" type = "text/css" href = "overallcss.css"></link>
+    <script src = 'jquery.js'></script>
     <div class = 'uppergrid'>
-        <div class = 'item2'><img src = "{{ url_for('static',filename='logo.png') }}" width = '5000' height = '50'></div>
-        <div class = 'item'>Form</div>
-        <div class = 'item3'>Data</div>
+        <div class = 'item2'><img src = 'logo.png' width = '5000' height = '50'></div>
+        <div class = 'item'><a class = 'a uppergridlink' href = 'submissionForm.html'>Form</a></div>
+        <div class = 'item3'><a class = 'a uppergridlink' href = 'datapage.html'>Data</a></div>
     </div><br><br><br><br><br><br><br>
     <div class = 'centerBox'>
         <h1>Paradigm Shift Scouting Form</h1><br>
-        <form>
+        <form name = 'scoutForm' method = 'POST' id = 'scoutForm'>
             <h2>General Information</h2>
-            <span></span><label>Team Number: </label><input type = 'text' id = "teamNo" name = "teamNo" onkeypress="return isNumberkey(event)"><br><br>
-            <span></span><label>Match #: </label><input type = 'text' id = "matchNo" name = "matchNo" onkeypress="return isNumberkey(event)"><br><br>
-            <span></span><label>Team Color: <select><option class = "option red">Red</option><option class = "option blue">Blue</option></select><br><br>
-            
+            <span></span><label>Team Number: </label><input type = 'text' id = "teamNo" name = "Team Number"><br><br>
+            <span></span><label>Match #: </label><input type = 'text' id = "matchNo" name = "Match Number"><br><br>
+            <span></span><label>Alliance Color: <select id = 'allianceColor' name = 'Alliance Color'>
+                <option value = "">--Select--</option>
+                <option value = "red" class = "option red">Red</option>
+                <option value = "blue" class = "option blue">Blue</option>
+            </select><br><br>
+            <span></span><label>Game Status: </label><select id = 'winOrLoss' name = 'W/L'>
+                <option value = "">--Select--</option>
+                <option value = "true">Win</option>
+                <option value = "false">Loss</option>
+            </select><br><br>
             <h2>Autonomous</h2>
-            <span></span><label margin-bottom = '100px'>Item(s) scored in Automous:</label><br>
-            <span></span><span></span><label>Cone: </label><input class = "input tiny" type = 'text' id = "autoConeScoreNo" name = "autoConeScoreNo" onkeypress="return isNumberkey(event)"><br>
-            <span></span><span></span><label>Cube: </label><input class = "input tiny" type = 'text' id = "autoCubeScoreNo" name = "autoCubeScoreNo" onkeypress="return isNumberkey(event)"><br><br>
             <span></span><label>Charge Station Status: </label> 
-                <select>
-                    <option>Engaged</option>
-                    <option>Not Engaged</option>
-                    <option>Not on it</Option>
+                <select id = 'autoChargeStation' name = 'Auto Charge Station'>
+                    <option value = ''>--Select--</option>
+                    <option value = 'engaged'>Engaged</option>
+                    <option value = 'not engaged'>Not Engaged</option>
+                    <option value = 'not on'>Not on it</Option>
                 </select><br><br>
-            <span></span><label>Crossed the community? </label><select>
-                <option>Yes</option>
-                <option>No</option>
+            <span></span><label>Crossed the community? </label><select id = 'autoCross' name = 'Auto Taxi'>
+                <option value = ''>--Select--</optin>
+                <option value = 'true'>Yes</option>
+                <option value = 'false'>No</option>
             </select><br><br>
             
             <h2>Tele-Op Period</h2>
-            <span></span><label>Gameplay Position </label><select>
-                <option>Defense</option>
-                <option>Offense</option>
-                <option>Not Functional</option>
+            <span></span><label>Gameplay Position: </label><select id = 'gameplayPosition' name = 'Gameplay Position'>
+                <option value = ''>--Select--</option>
+                <option value = 'defense'>Defense</option>
+                <option value = 'offense'>Offense</option>
+                <option value = 'not functional'>Not Functional</option>
             </select><br><br>
-            <span></span><label>Item(s) scored in Tele-Op:</label><br>
-            <span></span><span></span><label>Cone: </label><input class = "input tiny" type = 'text' id = "teleConeScoreNo" name = "teleConeScoreNo" onkeypress="return isNumberkey(event)"><br>
-            <span></span><span></span><label>Cube: </label><input class = "input tiny" type = 'text' id = "teleCubeScoreNo" name = "teleCubeScoreNo" onkeypress="return isNumberkey(event)"><br><br>
-            <span></span><label>Charge Station Status: </label> 
-                <select>
-                    <option>Engaged</option>
-                    <option>Not Engaged</option>
-                    <option>Not on it</Option>
-                </select>
+            <span></span><label>Charge Station: </label>
+            <select id = 'teleChargeStation' name = 'Tele-op Charge Station'>
+                    <option value = ''>--Select--</option>
+                    <option value = 'engaged'>Engaged</option>
+                    <option value = 'notEngaged'>Not Engaged</option>
+                    <option value = 'notOn'>Not on it</Option>
+            </select>
             </select><br><br>
-            
+            <h2>Points Scored</h2>
+            <div class = 'center'>
+            <button class = 'autoButton' id = 'autoButton' onclick = 'idel(this)'>Automous</button>
+            <button class = 'autoButton' id = 'teleButton' onclick = 'idel(this)'>Tele-op</button>
+            </div><br>
+           <table>
+            <tr>
+                <th scope = 'col'>Grid</th>
+                <th scope = 'col'>Cone</th>
+                <th scope = 'col'>Cube</th>
+                <th scope = 'col'>Auto</th>
+                <th scope = 'col'>Total</th>
+            </tr>
+            <tr>
+                <th scope = 'row'>Lower</th>
+                <th id = 'lowerCone'>0</th>
+                <th id = 'lowerCube'>0</th>
+                <th id = 'lowerAuto'>0</th>
+                <th id = 'lowerScore'>0</th>
+            </tr>
+            <tr>
+                <th scope = 'row'>Middle</th>
+                <th id = 'middleCone'>0</th>
+                <th id = 'middleCube'>0</th>
+                <th id = 'middleAuto'>0</th>
+                <th id = 'middleScore'>0</th>
+            </tr>
+            <tr>
+                <th scope = 'row'>Upper</th>
+                <th id = 'upperCone'>0</th>
+                <th id = 'upperCube'>0</th>
+                <th id = 'upperAuto'>0</th>
+                <th id ='upperScore'>0</th>
+            </tr>
+            </table><br>
+            <div class = 'buttonFormat'>
+                <button class = 'button itemButton' id = 'cone' onclick = "idel(this)">Cone</button>
+                <button class = 'button itemButton' id = 'cube' onclick = "idel(this)">Cube</button><br><br>
+                <button class = 'button gridButton' id = 'lower' onclick = "idel(this)">Lower</button>
+                <button class = 'button gridButton' id = 'middle' onclick = "idel(this)">Middle</button>
+                <button class = 'button gridButton' id = 'upper' onclick = "idel(this)">Upper</button>
+                </div><br><br>
+                <div class = 'center'>
+                <button class = 'button plusMinus' id = 'plus' onclick = "idel(this)">+</button>
+                <input type = 'number' class = 'scoreValue' id = 'inputField' value = 0>
+                <button class = 'button plusMinus' id = 'minus' onclick = "idel(this)">-</button><br>
+            </div>
+            <input type = 'number' class = 'input dontMind' id = 'lowerCubek' name = 'Lower Cube Scored' value = 0>
+            <input type = 'number' class = 'input dontMind' id = 'middleCubek' name = 'Middle Cube Scored'  value = 0>
+            <input type = 'number' class = 'input dontMind' id = 'upperCubek' name = 'Upper Cube Scored' value = 0>
+            <input type = 'number' class = 'input dontMind' id = 'lowerConek' name = 'Lower Cone Scored'  value = 0>
+            <input type = 'number' class = 'input dontMind' id = 'middleConek' name = 'Middle Cone Scored'  value = 0>
+            <input type = 'number' class = 'input dontMind' id = 'upperConek' name = 'Upper Cone Scored'  value = 0>
+            <input type = 'number' class = 'input dontMind' id = 'lowerAutok' name = 'Lower Auto Score'  value = 0>
+            <input type = 'number' class = 'input dontMind' id = 'middleAutok' name = 'Middle Auto Score'  value = 0>
+            <input type = 'number' class = 'input dontMind' id = 'upperAutok' name = 'Upper Auto Score'  value = 0>
+            <input type = 'number' class = 'input dontMind' id = 'lowerScorek' name = 'Lower Total Score'  value = 0>
+            <input type = 'number' class = 'input dontMind' id = 'middleScorek' name = 'Middle Total Score'  value = 0>
+            <input type = 'number' class = 'input dontMind' id = 'upperScorek' name = 'Upper Total Score'  value = 0><br><br>
+
             <h2>Additional Comments</h2>
-            <div class = 'center'><textarea id = 'comment' value = 'comment'></textarea><br><br><input type = 'submit' value = 'SUBMIT'></div>
-            <script>
-                function isNumberKey(evt){
-                    var charCode = (evt.which) ? evt.which : evt.keyCode
-                    if (charCode > 31 && (charCode < 48 || charCode > 57))
-                        return false;
-                    return true;
-                }
-            </script>
-           
-        </form>
-    </div>
+            <div class = 'center'>
+                <textarea id = 'comment' value = 'comment' name = 'Comment'></textarea><br><br>
+                <input type = 'submit' value = 'SUBMIT' ">
+            </div>
+
+        <script src = 'something.js'></script>    </div>
 </body>
 </html>

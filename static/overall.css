@@ -20,8 +20,8 @@ h2{
 
 p {
     color: white;
-    font-size: 20px;
-    font-weight: 20px;
+    font-size: 17px;
+    font-style: normal;
 }
 
 label{
@@ -49,6 +49,7 @@ span {
     height: auto;
     width: 100%;
 }
+
 
 .item{
     border-left-style: solid;
@@ -158,6 +159,17 @@ input[type='submit']{
     overflow:auto;
 }
 
+.centerBox-flat{
+    border: 1px solid grey;
+    background-color:black;
+    justify-content: center;
+    padding: 50px; 
+    height: auto;
+    width: 80%;
+    margin: auto;
+    overflow:auto;
+}
+
 form{
     text-align: left;
 }
@@ -196,4 +208,105 @@ option.blue{
 
 .center{
     text-align:center;
+}
+
+a {
+    color: lightblue;
+    font-size: 20px;
+    font-style:normal;
+    text-decoration: none;
+}
+
+a.uppergridlink{
+    color:black;
+}
+
+iframe{
+    height:800px;
+    width: 90%;
+    overflow: auto;
+}
+
+
+th[scope = 'col']{
+    background-color: #25262E;
+    color:#fcc203;
+    font-weight:bold;
+    border-color:black;
+
+}
+th[scope = 'row']{
+    background-color: #2E2A2B;
+    color:white;
+    font-weight:normal;
+
+}
+th{
+    width:100px;
+    height:50px;
+    text-align:center;
+    border: 1px solid black;
+    font-family: sans-serif;
+    background-color:white;
+    color:black;
+}
+table{
+    border-collapse: collapse;
+    border: 1px solid black;
+    margin-left:auto;
+    margin-right:auto;
+    
+}
+button.plusMinus{
+    border-radius:50px;
+    width:100px;
+    height:100px;
+    font-size:70px;
+    background-color:#25262E;
+    color:#fcc203;
+}
+
+input.scoreValue{
+    width:200px;
+    height:100px;
+    text-align: center;
+    margin:auto;
+    font-size: 50px;
+    font-weight:bold;
+    background-color:black;
+    color:white;
+    border:2px solid grey
+}
+
+button.gridButton{
+    background-color:black;
+    color:#fcc203;
+    font-weight:bold;
+    width:150px;
+    height:50px;
+    height:50px;
+    border:2px solid #fcc203
+}
+
+button.itemButton{
+    background-color:black;
+    color:#fcc203;    
+    font-weight:bold;
+    width:150px;
+    height:50px;
+    border:2px solid #fcc203
+}
+
+.buttonFormat{
+    margin:auto;
+    text-align:center;
+}
+
+button.autoButton{
+    background-color:black;
+    color:#fcc203;    
+    font-weight:bold;
+    width:150px;
+    height:50px;
+    border:2px solid #fcc203
 }
