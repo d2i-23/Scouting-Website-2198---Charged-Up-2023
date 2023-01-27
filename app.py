@@ -1,12 +1,9 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, request 
+
+import pandas as pd 
+import gspread as gs 
 
 app = Flask(__name__, static_folder="./static")
-
-@app.route('/')
-def index():
-    return render_template('submissionForm.html', templates='templates')
-
-
 
 
 #fsisfd
@@ -15,16 +12,15 @@ def index():
 #djssdjf
 #ksjflfg
 
-
-
-
-
-@app.route('/form')
+@app.route('/api', methods = ['GET', 'POST'])
 def api():
-    
+    if request.method == 'POST':
+        req = request.form 
+        print(req.to_dict())
+        return redirect(request.url)
+    else:
+        return render_template('submissionForm.html', templates='templates')
 
-    #pandas code
-    pass
 
 # main driver function
 if __name__ == '__main__':

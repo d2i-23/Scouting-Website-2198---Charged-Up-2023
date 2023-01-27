@@ -80,6 +80,7 @@ span {
     margin-top: auto;
     margin-bottom:auto;
     width:auto;
+
 }
 
 .item3{
@@ -179,7 +180,7 @@ img {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: auto;
+    width: 100%;
 }
 
 .img2{
@@ -220,6 +221,7 @@ a {
 
 a.uppergridlink{
     color:black;
+    font-size:80%;
 }
 
 iframe{
@@ -264,8 +266,8 @@ table{
 }
 button.plusMinus{
     border-radius:300%;
-    width:75px;
-    height:75px;
+    width:65px;
+    height:65px;
     font-size:300%;
     background-color:#25262E;
     color:#fcc203;

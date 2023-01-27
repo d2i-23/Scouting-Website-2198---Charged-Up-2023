@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% block head %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scouting Form</title>
+    <title>{%block title %}Scouting Form{% endblock %}</title>
+    <link rel = "StyleSheet" type = "text/css" href = "{{url_for('static', filename='overall.css')}}"></link>
+    <script src = "{{url_for('static', filename='jquery.js')}}"></script>
+    {% endblock %}
 </head>
 <body>
-    <link rel = "StyleSheet" type = "text/css" href = "overallcss.css"></link>
-    <script src = 'jquery.js'></script>
     <div class = 'uppergrid'>
-        <div class = 'item2'><img src = 'logo.png' width = '5000' height = '50'></div>
+        <div class = 'item2'><img src = "{{url_for('static', filename='logo.png')}}" width = '5000' height = '50'></div>
         <div class = 'item'><a class = 'a uppergridlink' href = 'submissionForm.html'>Form</a></div>
         <div class = 'item3'><a class = 'a uppergridlink' href = 'datapage.html'>Data</a></div>
     </div><br><br><br><br><br><br><br>
     <div class = 'centerBox'>
         <h1>Paradigm Shift Scouting Form</h1><br>
-        <form name = 'scoutForm' method = 'POST' id = 'scoutForm'>
+        <form action = '#' name = 'scoutForm' method = 'POST' id = 'scoutForm'>
             <h2>General Information</h2>
             <span></span><label>Team Number: </label><input type = 'number' id = "teamNo" name = "Team Number"><br><br>
             <span></span><label>Match #: </label><input type = 'number' id = "matchNo" name = "Match Number"><br><br>
@@ -125,6 +127,6 @@
                 <input type = 'submit' value = 'SUBMIT' ">
             </div>
 
-        <script src = 'something.js'></script>    </div>
+        <script src = "{{url_for('static', filename='something.js')}}"></script>    </div>
 </body>
 </html>
