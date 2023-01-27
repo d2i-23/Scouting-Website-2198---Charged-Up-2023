@@ -1,9 +1,12 @@
-from flask import Flask, render_template, redirect, request 
+from flask import Flask, render_template, redirect, request, url_for
 
 import pandas as pd 
 import gspread as gs 
 
 app = Flask(__name__, static_folder="./static")
+@app.route('/', methods=['GET', 'POST'])
+def login():
+    return redirect(url_for("api"))
 
 
 #fsisfd
