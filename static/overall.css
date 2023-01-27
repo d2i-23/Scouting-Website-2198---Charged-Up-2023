@@ -266,8 +266,8 @@ table{
 }
 button.plusMinus{
     border-radius:300%;
-    width:65px;
-    height:65px;
+    width:30%;
+    height:30%;
     font-size:300%;
     background-color:#25262E;
     color:#fcc203;
