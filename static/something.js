@@ -174,17 +174,3 @@ $().ready(function(){
         event.preventDefault()
     })
 })
-
-
-//Script for the spreadsheet
-
-const scriptURL = 'https://script.google.com/macros/s/AKfycbzDM7_ofdQMFNwFuNJau6wZFGSRao3poRkkDVyUkf19dUtklNCFsmQIF1IuISOnzl1L_Q/exec'
-                const form = document.forms['scoutForm']
-              
-                form.addEventListener('submit', e => {
-                  e.preventDefault()
-                  fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-                    .then(response => alert('Successfully Submitted!', response) & location.reload())
-                    .catch(error => console.error('Error!', error.message))
-                })
-

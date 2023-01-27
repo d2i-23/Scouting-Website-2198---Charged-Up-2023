@@ -5,7 +5,8 @@ body{
 h1 {
     color: white;
     font-family:-apple-system,BlinkMacSystemFont,Segoe UI,"Helvetica Neue",Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol ;
-    font-weight:30px;
+    font-weight:30%;
+    font-size:190%;
     text-align: left;
 }
 
@@ -13,32 +14,32 @@ h2{
     color: #fcc203;
     font-family:-apple-system,BlinkMacSystemFont,Segoe UI,"Helvetica Neue",Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol ;
     border-bottom:1px solid #A8AEBD;
-    font-size: 25px;
+    font-size: 130%;
     text-align: left;
     font-weight:normal;
 }
 
 p {
     color: white;
-    font-size: 17px;
+    font-size: 50%;
     font-style: normal;
 }
 
 label{
     color:white;
     font-weight: lighter;
-    font-size: 20px
+    font-size: 120%;
 }
 
 label.paragraph{
     color: white;
-    font-size: 20px;
+    font-size: 120%;
     font-weight: 20px;
 }
 
 span {
     display: inline-block;
-    margin-left: 30px;
+    margin-left: 5%;
 }
 
 .uppergrid{
@@ -96,11 +97,11 @@ span {
     width:auto;
 }
 
-input[type='text'] {
+input[type='number'] {
     border-top: hidden;
     border-left: hidden;
     border-right: hidden;
-    width: auto;
+    width: 30%;
     padding: 1px;
     background-color: black;
     color: white;
@@ -118,7 +119,7 @@ input[type='text'].tiny {
     color: white;
     font-style: oblique;
     font-style:normal;
-    width:50px
+    width:50px;
 }
 
 textarea{
@@ -129,13 +130,13 @@ textarea{
     overflow:auto;
     text-align:start;
     color:white;
-    font-size:17px;
+    font-size:70%;
 }
 
 input[type='submit']{ 
     border-radius: 5px;
     background:#25262E;
-    color: white;
+    color: #fcc203;
     font-style: bold;
     text-align:center;
     width:50%;
@@ -154,7 +155,7 @@ input[type='submit']{
     justify-content: center;
     padding: 50px; 
     height: auto;
-    width: 50%;
+    width: 70%;
     margin: auto;
     overflow:auto;
 }
@@ -178,7 +179,7 @@ img {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 100%;  
+    width: auto;
 }
 
 .img2{
@@ -189,12 +190,12 @@ select{
     border-top: hidden;
     border-left: hidden;
     border-right: hidden;
-    width: 100px;
+    width: 20%;
     height: 30px;
     background-color:#25262E;
     color:white;
     font-family:-apple-system,BlinkMacSystemFont,Segoe UI,"Helvetica Neue",Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol ;
-    font: size 30px;
+    font: size 65%;
     text-align: center;
 }
 
@@ -242,15 +243,19 @@ th[scope = 'row']{
 
 }
 th{
-    width:100px;
-    height:50px;
+    width:auto;
+    height:auto;
+    padding:2%;
     text-align:center;
     border: 1px solid black;
     font-family: sans-serif;
+    font-size:100%;
     background-color:white;
     color:black;
 }
 table{
+    width:100%;
+    height:auto;
     border-collapse: collapse;
     border: 1px solid black;
     margin-left:auto;
@@ -258,20 +263,21 @@ table{
     
 }
 button.plusMinus{
-    border-radius:50px;
-    width:100px;
-    height:100px;
-    font-size:70px;
+    border-radius:300%;
+    width:75px;
+    height:75px;
+    font-size:300%;
     background-color:#25262E;
     color:#fcc203;
+    margin:auto;
 }
 
 input.scoreValue{
-    width:200px;
-    height:100px;
+    width:30%;
+    height:auto;
     text-align: center;
     margin:auto;
-    font-size: 50px;
+    font-size: 400%;
     font-weight:bold;
     background-color:black;
     color:white;
@@ -282,8 +288,8 @@ button.gridButton{
     background-color:black;
     color:#fcc203;
     font-weight:bold;
-    width:150px;
-    height:50px;
+    font-size:60%;
+    width:30%;
     height:50px;
     border:2px solid #fcc203
 }
@@ -292,7 +298,8 @@ button.itemButton{
     background-color:black;
     color:#fcc203;    
     font-weight:bold;
-    width:150px;
+    font-size:60%;
+    width:30%;
     height:50px;
     border:2px solid #fcc203
 }
@@ -306,7 +313,8 @@ button.autoButton{
     background-color:black;
     color:#fcc203;    
     font-weight:bold;
-    width:150px;
+    font-size:60%;
+    width:30%;
     height:50px;
     border:2px solid #fcc203
 }

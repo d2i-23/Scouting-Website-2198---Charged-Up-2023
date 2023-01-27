@@ -18,42 +18,42 @@
         <h1>Paradigm Shift Scouting Form</h1><br>
         <form name = 'scoutForm' method = 'POST' id = 'scoutForm'>
             <h2>General Information</h2>
-            <span></span><label>Team Number: </label><input type = 'text' id = "teamNo" name = "Team Number"><br><br>
-            <span></span><label>Match #: </label><input type = 'text' id = "matchNo" name = "Match Number"><br><br>
-            <span></span><label>Alliance Color: <select id = 'allianceColor' name = 'Alliance Color'>
-                <option value = "">--Select--</option>
+            <span></span><label>Team Number: </label><input type = 'number' id = "teamNo" name = "Team Number"><br><br>
+            <span></span><label>Match #: </label><input type = 'number' id = "matchNo" name = "Match Number"><br><br>
+            <span></span><label>Alliance Color: </label> <select id = 'allianceColor' name = 'Alliance Color'>
+                <option value = "">Select</option>
                 <option value = "red" class = "option red">Red</option>
                 <option value = "blue" class = "option blue">Blue</option>
             </select><br><br>
             <span></span><label>Game Status: </label><select id = 'winOrLoss' name = 'W/L'>
-                <option value = "">--Select--</option>
+                <option value = "">Select</option>
                 <option value = "true">Win</option>
                 <option value = "false">Loss</option>
             </select><br><br>
             <h2>Autonomous</h2>
             <span></span><label>Charge Station Status: </label> 
                 <select id = 'autoChargeStation' name = 'Auto Charge Station'>
-                    <option value = ''>--Select--</option>
+                    <option value = ''>Select</option>
                     <option value = 'engaged'>Engaged</option>
                     <option value = 'not engaged'>Not Engaged</option>
                     <option value = 'not on'>Not on it</Option>
                 </select><br><br>
             <span></span><label>Crossed the community? </label><select id = 'autoCross' name = 'Auto Taxi'>
-                <option value = ''>--Select--</optin>
+                <option value = ''>Select</optin>
                 <option value = 'true'>Yes</option>
                 <option value = 'false'>No</option>
             </select><br><br>
             
             <h2>Tele-Op Period</h2>
             <span></span><label>Gameplay Position: </label><select id = 'gameplayPosition' name = 'Gameplay Position'>
-                <option value = ''>--Select--</option>
+                <option value = ''>Select</option>
                 <option value = 'defense'>Defense</option>
                 <option value = 'offense'>Offense</option>
                 <option value = 'not functional'>Not Functional</option>
             </select><br><br>
             <span></span><label>Charge Station: </label>
             <select id = 'teleChargeStation' name = 'Tele-op Charge Station'>
-                    <option value = ''>--Select--</option>
+                    <option value = ''>Select</option>
                     <option value = 'engaged'>Engaged</option>
                     <option value = 'notEngaged'>Not Engaged</option>
                     <option value = 'notOn'>Not on it</Option>
@@ -61,8 +61,8 @@
             </select><br><br>
             <h2>Points Scored</h2>
             <div class = 'center'>
-            <button class = 'autoButton' id = 'autoButton' onclick = 'idel(this)'>Automous</button>
-            <button class = 'autoButton' id = 'teleButton' onclick = 'idel(this)'>Tele-op</button>
+            <button class = 'autoButton' id = 'autoButton' onclick = 'idel(this)'>Auto</button>
+            <button class = 'autoButton' id = 'teleButton' onclick = 'idel(this)'>Tele-Op</button>
             </div><br>
            <table>
             <tr>
@@ -97,13 +97,13 @@
             <div class = 'buttonFormat'>
                 <button class = 'button itemButton' id = 'cone' onclick = "idel(this)">Cone</button>
                 <button class = 'button itemButton' id = 'cube' onclick = "idel(this)">Cube</button><br><br>
-                <button class = 'button gridButton' id = 'lower' onclick = "idel(this)">Lower</button>
-                <button class = 'button gridButton' id = 'middle' onclick = "idel(this)">Middle</button>
-                <button class = 'button gridButton' id = 'upper' onclick = "idel(this)">Upper</button>
-                </div><br><br>
-                <div class = 'center'>
+                <button class = 'button gridButton' id = 'lower' onclick = "idel(this)">Low</button>
+                <button class = 'button gridButton' id = 'middle' onclick = "idel(this)">Mid</button>
+                <button class = 'button gridButton' id = 'upper' onclick = "idel(this)">Up</button>
+            </div><br><br>
+            <div class = 'center'>
                 <button class = 'button plusMinus' id = 'plus' onclick = "idel(this)">+</button>
-                <input type = 'number' class = 'scoreValue' id = 'inputField' value = 0>
+                <input type = 'text' class = 'scoreValue' id = 'inputField' value = 0>
                 <button class = 'button plusMinus' id = 'minus' onclick = "idel(this)">-</button><br>
             </div>
             <input type = 'number' class = 'input dontMind' id = 'lowerCubek' name = 'Lower Cube Scored' value = 0>
