@@ -18,7 +18,6 @@ def processRawData(dataFrame):
     idList = ['Team Number', 'Match Number', 'Lower Cube Scored', 'Middle Cube Scored', 'Upper Cube Scored', 'Lower Cone Scored', 'Upper Cone Scored', 'Middle Cone Scored', 'Lower Auto Score', 'Middle Auto Score', 'Upper Auto Score', 'Lower Total Score', 'Middle Total Score', 'Upper Total Score']
     for i in idList:
         exec(f'dataFrame[{i}] = dataFrame[{i}].astype("int32")')
-    \
     dataFrame['Auto Charge Station'] = 12 if 'engaged' else (8 if 'not engaged' else 0)
     dataFrame['Tele-op Charge Station'] = 10 if 'engaged' else (6 if 'not engaged' else 0)
     dataFrame['W/L'] = dataFrame['W/L'].apply(lambda x: True if x == 'true' else False)
