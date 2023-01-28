@@ -23,13 +23,7 @@ def processRawData(dataFrame):
     dataFrame['W/L'] = dataFrame['W/L'].apply(lambda x: True if x == 'true' else False)
     return dataFrame
 
-def addRawData(dictionary):
-    dataFrame = pd.DataFrame(worksheet.get_all_records())
-    testData = dictionary
-    dataframe = pd.DataFrame(testData, index = [0])
-    dataframe = processRawData(pd.concat([dataFrame,dataframe], ignore_index = True))
-    worksheet.clear()
-    worksheet.update([dataframe.columns.values.tolist()] + dataframe.values.tolist())
+
 
 def updateAutonomous():
     processData = pd.DataFrame(worksheet.get_all_records())[['Team Number','Lower Auto Score', 'Middle Auto Score', 'Upper Auto Score', 'Auto Charge Station']]
@@ -45,14 +39,21 @@ def updateTele():
     processData = pd.DataFrame(worksheet.get_all_records())[['Team Number','Lower Total Score', 'Middle Total Score', 'Upper Total Score', 'Tele-op Charge Station','Lower Auto Score', 'Middle Auto Score', 'Upper Auto Score']]
     processData['Count'] = 1
     processData['Tele-op Total Score'] = processData['Lower Total Score'] - processData['Lower Auto Score'] + processData['Middle Total Score'] - processData['Middle Auto Score'] + processData['Upper Total Score'] + processData['Tele-op Charge Station']
-    processData= processData.groupby(by = 'Team Number', as_index = True).apply(lambda x: x.sum(numeric_only = True) / x['Count'].sum()).sort_values(by = 'Tele Total Score', ascending = False)
+    processData= processData.groupby(by = 'Team Number', as_index = True).apply(lambda x: x.sum(numeric_only = True) / x['Count'].sum()).sort_values(by = 'Tele-op Total Score', ascending = False)
     processData.drop(['Count', 'Lower Auto Score', 'Middle Auto Score', 'Upper Auto Score'], inplace = True, axis = 1)
     autoWordSheet = mainWorkSheet.get_worksheet(2)
     autoWordSheet.clear()
     autoWordSheet.update([processData.columns.values.tolist()] + processData.values.tolist())
 
-#def updateAutonomous()
-
+def addData(dictionary):
+    dataFrame = pd.DataFrame(worksheet.get_all_records())
+    testData = dictionary
+    dataframe = pd.DataFrame(testData, index = [0])
+    dataframe = processRawData(pd.concat([dataFrame,dataframe], ignore_index = True))
+    worksheet.clear()
+    worksheet.update([dataframe.columns.values.tolist()] + dataframe.values.tolist())
+    updateAutonomous()
+    updateTele()
 
 #ksjflfg
 @app.route('/')
@@ -64,9 +65,7 @@ def api():
     if request.method == 'POST':
         req = request.form.to_dict()
         print(req)
-        addRawData(req)
-        updateAutonomous()
-        updateTele()
+        addData(req)
     return render_template('submissionForm.html', templates='templates')
 
 
