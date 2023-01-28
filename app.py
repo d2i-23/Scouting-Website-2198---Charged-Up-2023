@@ -41,7 +41,16 @@ def updateAutonomous():
     autoWordSheet.clear()
     autoWordSheet.update([processData.columns.values.tolist()] + processData.values.tolist())
 
-    
+def updateTele():
+    processData = pd.DataFrame(worksheet.get_all_records())[['Team Number','Lower Total Score', 'Middle Total Score', 'Upper Total Score', 'Tele-op Charge Station','Lower Auto Score', 'Middle Auto Score', 'Upper Auto Score']]
+    processData['Count'] = 1
+    processData['Tele-op Total Score'] = processData['Lower Total Score'] - processData['Lower Auto Score'] + processData['Middle Total Score'] - processData['Middle Auto Score'] + processData['Upper Total Score'] + processData['Tele-op Charge Station']
+    processData= processData.groupby(by = 'Team Number', as_index = True).apply(lambda x: x.sum(numeric_only = True) / x['Count'].sum()).sort_values(by = 'Tele Total Score', ascending = False)
+    processData.drop(['Count', 'Lower Auto Score', 'Middle Auto Score', 'Upper Auto Score'], inplace = True, axis = 1)
+    autoWordSheet = mainWorkSheet.get_worksheet(2)
+    autoWordSheet.clear()
+    autoWordSheet.update([processData.columns.values.tolist()] + processData.values.tolist())
+
 #def updateAutonomous()
 
 
@@ -57,6 +66,7 @@ def api():
         print(req)
         addRawData(req)
         updateAutonomous()
+        updateTele()
     return render_template('submissionForm.html', templates='templates')
 
 
