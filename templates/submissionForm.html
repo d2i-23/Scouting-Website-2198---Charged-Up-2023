@@ -20,8 +20,8 @@
         <h1>Paradigm Shift Scouting Form</h1><br>
         <form action = '#' name = 'scoutForm' method = 'POST' id = 'scoutForm'>
             <h2>General Information</h2>
-            <span></span><label>Team Number: </label><input type = 'number' id = "teamNo" name = "Team Number"><br><br>
-            <span></span><label>Match #: </label><input type = 'number' id = "matchNo" name = "Match Number"><br><br>
+            <span></span><label>Team Number: </label><input type = 'number' id = "teamNo" name = "Team Number" value = ''><br><br>
+            <span></span><label>Match #: </label><input type = 'number' id = "matchNo" name = "Match Number" value = ''><br><br>
             <span></span><label>Alliance Color: </label> <select id = 'allianceColor' name = 'Alliance Color'>
                 <option value = "">Select</option>
                 <option value = "red" class = "option red">Red</option>
@@ -124,9 +124,8 @@
             <h2>Additional Comments</h2>
             <div class = 'center'>
                 <textarea id = 'comment' value = 'comment' name = 'Comment'></textarea><br><br>
-                <input type = 'submit' value = 'SUBMIT' ">
+                <input type = 'submit' id = 'submit' value = 'SUBMIT'>
             </div>
-
         <script src = "{{url_for('static', filename='something.js')}}"></script>    </div>
 </body>
 </html>
