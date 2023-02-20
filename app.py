@@ -43,8 +43,8 @@ def updateTele():
     autoWordSheet.update([processData.columns.values.tolist()] + processData.values.tolist())
 
 def updateTotal():
-    autoWorksheet = pd.DataFrame(mainWorkSheet.get_worksheet(1).get_all_records())
-    teleopWorksheet = pd.DataFrame(mainWorkSheet.get_worksheet(2).get_all_records())
+    autoWorksheet = pd.DataFrame(mainWorkSheet.get_worksheet(1).get_all_records()).set_index('Team Number')
+    teleopWorksheet = pd.DataFrame(mainWorkSheet.get_worksheet(2).get_all_records()).set_index('Team Number')
     totalWorksheet = pd.concat([autoWorksheet, teleopWorksheet], axis = 1 )
     totalWorksheet['Lower Total Score'] = totalWorksheet['Lower Tele-op Score'] + totalWorksheet['Lower Auto Score']
     totalWorksheet['Middle Total Score'] = totalWorksheet['Middle Tele-op Score'] + totalWorksheet['Middle Auto Score']
