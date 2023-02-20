@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data</title>
+</head>
+<link rel = "StyleSheet" type = "text/css" href = "{{url_for('static', filename='overall.css')}}"></link>
+<script src = "{{url_for('static', filename='jquery.js')}}"></script>
+<body>
+    <div class = 'uppergrid'>
+        <div class = 'item2'><img src = "{{url_for('static', filename='logo.png')}}" width = '5000' height = '50'></div>
+        <div class = 'item'><a class = 'a uppergridlink' href = "{{url_for('api')}}">Form</a></div>
+        <div class = 'item3'><a class = 'a uppergridlink' href = "{{url_for('data')}}">Data</a></div>
+    </div><br><br><br><br><br><br><br>
+    <div class = 'centerBox-flat'>
+        <h1>Data</h1><br>
+        <h2>Spreadsheet</h2>
+        <label>The spreadsheet can be accessed through this <a href = 'https://docs.google.com/spreadsheets/d/1NPK8B3CFtDfY_CaPi3BkOUvlktXQY2y3SsNFlIXqhhs/edit?usp=sharing'>link</a>. Take note that it takes a few minute to update, so just refer to the actual spreadsheet if its urgent.</label>
+        <br><br>
+        <div class = 'center'><iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRtWoLcqSkBYnEPZ6hrxRuvZmUtEhiZN8XN5t2NQZy3h3SmSB4DMupICpVZ4_zJr5nHs2RQ0tkMsXf3/pubhtml?widget=true&amp;headers=false"></iframe>
+    </div>
+</body>
+</html>

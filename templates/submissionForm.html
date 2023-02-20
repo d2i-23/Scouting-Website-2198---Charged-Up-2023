@@ -13,8 +13,8 @@
 <body>
     <div class = 'uppergrid'>
         <div class = 'item2'><img src = "{{url_for('static', filename='logo.png')}}" width = '5000' height = '50'></div>
-        <div class = 'item'><a class = 'a uppergridlink' href = 'submissionForm.html'>Form</a></div>
-        <div class = 'item3'><a class = 'a uppergridlink' href = 'datapage.html'>Data</a></div>
+        <div class = 'item'><a class = 'a uppergridlink' href = "{{url_for('api')}}">Form</a></div>
+        <div class = 'item3'><a class = 'a uppergridlink' href = "{{url_for('data')}}">Data</a></div>
     </div><br><br><br><br><br><br><br>
     <div class = 'centerBox'>
         <h1>Paradigm Shift Scouting Form</h1><br>
@@ -27,10 +27,10 @@
                 <option value = "red" class = "option red">Red</option>
                 <option value = "blue" class = "option blue">Blue</option>
             </select><br><br>
-            <span></span><label>Game Status: </label><select id = 'winOrLoss' name = 'W/L'>
-                <option value = "">Select</option>
-                <option value = "true">Win</option>
-                <option value = "false">Loss</option>
+            <span></span><label>Win/Loss: </label><select id = 'winOrLoss' name = 'W/L'>
+                <option value = ''>Select</option>
+                <option value = 'TRUE'>Win</option>
+                <option value = 'FALSE'>Loss</option>
             </select><br><br>
             <h2>Autonomous</h2>
             <span></span><label>Charge Station Status: </label> 
@@ -125,6 +125,6 @@
                 <textarea id = 'comment' value = 'comment' name = 'Comment'></textarea><br><br>
                 <input type = 'submit' id = 'submit' value = 'SUBMIT'>
             </div>
-        <script src = "{{url_for('static', filename='something.js')}}"></script>    </div>
+        <script src = "{{url_for('static', filename='something.js')}}"></script></div>
 </body>
 </html>

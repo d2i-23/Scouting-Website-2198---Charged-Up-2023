@@ -3,10 +3,6 @@ import pandas as pd
 import gspread as gs 
 
 app = Flask(__name__, static_folder="./static")
-#fsisfd
-#sdkjfklsdjlfsd
-#oeiuwoepqvenv
-#djssdjf
 
 gc = gs.service_account('googleService.json')
 mainWorkSheet = gc.open_by_url('https://docs.google.com/spreadsheets/d/1NPK8B3CFtDfY_CaPi3BkOUvlktXQY2y3SsNFlIXqhhs/edit#gid=0')
@@ -20,7 +16,6 @@ def processRawData(dataFrame):
         exec(string)
     dataFrame['Auto Charge Station'] = 12 if 'engaged' else (8 if 'not engaged' else 0)
     dataFrame['Tele-op Charge Station'] = 10 if 'engaged' else (6 if 'not engaged' else 0)
-    dataFrame['W/L'] = dataFrame['W/L'].apply(lambda x: True if x == 'true' else False)
     return dataFrame
 
 def updateAutonomous():
@@ -40,6 +35,7 @@ def updateTele():
     processData['Middle Tele-op Score'] = processData['Middle Total Score'] - processData['Middle Auto Score']
     processData['Upper Tele-op Score'] = processData['Upper Total Score'] - processData['Upper Auto Score']
     processData['Tele-op Total Score'] = processData['Lower Tele-op Score'] + processData['Middle Tele-op Score'] + processData['Upper Tele-op Score']
+    print(processData[processData['Team Number'] == 3213])
     processData= processData.groupby(by = 'Team Number', as_index = True).apply(lambda x: x.sum(numeric_only = True) / x['Count'].sum()).sort_values(by = 'Tele-op Total Score', ascending = False)
     processData.drop(['Count', 'Lower Auto Score', 'Middle Auto Score', 'Upper Auto Score', 'Lower Total Score', 'Middle Total Score','Upper Total Score'], inplace = True, axis = 1)
     autoWordSheet = mainWorkSheet.get_worksheet(2)
@@ -47,40 +43,35 @@ def updateTele():
     autoWordSheet.update([processData.columns.values.tolist()] + processData.values.tolist())
 
 def updateTotal():
-    try: 
-        autoWorksheet = pd.DataFrame(mainWorkSheet.get_worksheet(1).get_all_records())
-        teleopWorksheet = pd.DataFrame(mainWorkSheet.get_worksheet(2).get_all_records())
-    except: 
-        autoWorksheet = pd.DataFrame()
-        teleopWorksheet = pd.DataFrame()
-    totalWorksheet = pd.concat([autoWorksheet, teleopWorksheet], axis = 0 )
+    autoWorksheet = pd.DataFrame(mainWorkSheet.get_worksheet(1).get_all_records())
+    teleopWorksheet = pd.DataFrame(mainWorkSheet.get_worksheet(2).get_all_records())
+    totalWorksheet = pd.concat([autoWorksheet, teleopWorksheet], axis = 1 )
     totalWorksheet['Lower Total Score'] = totalWorksheet['Lower Tele-op Score'] + totalWorksheet['Lower Auto Score']
     totalWorksheet['Middle Total Score'] = totalWorksheet['Middle Tele-op Score'] + totalWorksheet['Middle Auto Score']
     totalWorksheet['Upper Total Score'] = totalWorksheet['Upper Tele-op Score'] + totalWorksheet['Upper Auto Score']
     totalWorksheet['Total Charge Station'] = totalWorksheet['Tele-op Charge Station'] + totalWorksheet['Auto Charge Station']
     totalWorksheet['Total Score'] = totalWorksheet['Tele-op Total Score'] + totalWorksheet['Auto Total Score']
-    newtotalWorksheet = totalWorksheet[['Lower Total Score', 'Middle Total Score', 'Upper Total Score', 'Total Charge Station', 'Total Score']]
+    newtotalWorksheet = totalWorksheet[['Lower Total Score', 'Middle Total Score', 'Upper Total Score', 'Total Charge Station', 'Total Score']].reset_index()
     mainWorkSheet.get_worksheet(3).clear()
     mainWorkSheet.get_worksheet(3).update([newtotalWorksheet.columns.values.tolist()] + newtotalWorksheet.values.tolist())
 
 def updateAnalysis():
     processData = pd.DataFrame(worksheet.get_all_records())
-    processData.drop([['Match Number', 'Alliance Color', 'Comment']])
-    processData1 = processData[['W/L', 'Auto Taxi', 'Gameplay Position']].groupby('Team Number', as_index=True).apply(lambda x: (len(x[x == 'TRUE']/ x.count()))*100)
-    processData2 = processData.groupby[['Tele-op Charge Station', 'Auto Charge Station']]('Team Number', as_index = True).apply(lambda x: (len(x[x != 0]/ x.count()))*100)
-    processData3 = processData.groupby('Team Number', as_index = True)[['Lower Total Scored', 'Middle Total Scored', 'Upper Total Scored']].apply(lambda x: (x.sum(numeric_only = True)/(x['Lower Total Scored'].sum() + x['Middle Total Scored'].sum() + x['Upper Total Scored'].sum()))*100)
-    processData = pd.concat([processData1, processData2, processData3], axis = 0)
+    processData = processData.drop(['Match Number', 'Alliance Color', 'Comment'], axis = 1)
+    processData1 = processData[['Team Number', 'W/L', 'Auto Taxi', 'Gameplay Position']].groupby('Team Number', as_index = True).apply(lambda x: (x[x == 'TRUE']).count()/x.count())[['W/L', 'Auto Taxi', 'Gameplay Position']]
+    processData2 = processData[['Team Number', 'Tele-op Charge Station', 'Auto Charge Station']].groupby('Team Number', as_index = True).apply(lambda x: (x[x > 0]).count()/x.count())[['Tele-op Charge Station', 'Auto Charge Station']]
+    processData['Total Score'] = processData['Lower Total Score'] + processData['Middle Total Score'] + processData['Upper Total Score']
+    processData3 = processData[['Team Number', 'Lower Total Score', 'Middle Total Score', 'Upper Total Score', 'Total Score']].groupby('Team Number', as_index = True).apply(lambda x: x.sum()/x['Total Score'].sum())[['Lower Total Score', 'Upper Total Score', 'Middle Total Score']]
+    processData = pd.concat([processData1, processData2, processData3], axis = 1).reset_index().fillna(0)
     mainWorkSheet.get_worksheet(4).clear()
     mainWorkSheet.get_worksheet(4).update([processData.columns.values.tolist()] + processData.values.tolist())
 
 def addData(dictionary):
-    try: 
-        dataFrame = pd.DataFrame(worksheet.get_all_records())
-    except: 
-        dataFrame = pd.DataFrame()
+    dataFrame = pd.DataFrame(worksheet.get_all_records())
     testData = dictionary
     dataframe = pd.DataFrame(testData, index = [0])
-    dataframe = processRawData(pd.concat([dataFrame,dataframe], ignore_index = True))
+    dataframe = processRawData(dataframe)
+    dataframe = pd.concat([dataFrame, dataframe], ignore_index=True)
     worksheet.clear()
     worksheet.update([dataframe.columns.values.tolist()] + dataframe.values.tolist())
     updateAutonomous()
@@ -88,7 +79,6 @@ def addData(dictionary):
     updateTotal()
     updateAnalysis()
 
-#ksjflfg
 @app.route('/')
 def index():
     return redirect(url_for('api'))
@@ -101,6 +91,9 @@ def api():
         addData(req)
     return render_template('submissionForm.html', templates='templates')
 
+@app.route('/data')
+def data():
+    return render_template('spreadSheetData.html', templates = 'template')
 
 # main driver function
 if __name__ == '__main__':

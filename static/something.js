@@ -25,14 +25,6 @@ function updateDontMind(){
     $('#upperScorek').val($('#upperScore').text())
 }
 
-function stopInput(){
-    var x = Number.parseInt($('#inputField').val())
-    if (x<0){
-        $('#inputField').val(0)
-    }
-    
-}
-
 function updateScore(savedLocation, autonomous, update, verify){
     if (savedLocation.indexOf('l') == 1){
         var scoreLocation = '#lowerScore'
@@ -147,10 +139,27 @@ $().ready(function(){
             $('#inputField').val(++x)
         }
         else{
-            $('#inputField').val(--x)
+            if (savedLocation.indexOf('l') == 1){
+                var location = 'lower'
+            }
+            else if (savedLocation.indexOf('m') == 1){
+                var location = 'middle'
+            }
+            else{
+                var location = 'upper'
+            }
+            if (auto){
+                if ($('#' + location + 'Autok').val() > 0 && auto){
+                $('#inputField').val(--x)
+                }
+            }
+            else{
+                if ($('#' + location + 'Scorek').val() - $('#' + location + 'Autok').val() > 0){
+                    $('#inputField').val(--x)
+                }
+            }
         }
         x = $('#inputField').val()
-        stopInput()
         x = $('#inputField').val()
         $(savedLocation).text(x)
         updateScore(savedLocation, auto, false,false)
