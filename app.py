@@ -71,11 +71,11 @@ def updateFinalWorksheet():
     teleOpStats = pd.DataFrame(mainWorkSheet.get_worksheet(2).get_all_records())[['Team Number', 'Tele-op Charge Station', 'Tele-op Total Score']].sort_values(by = 'Team Number').set_index('Team Number')
     autoStats =  pd.DataFrame(mainWorkSheet.get_worksheet(1).get_all_records())[['Team Number', 'Auto Charge Station', 'Auto Total Score']].sort_values(by = 'Team Number').set_index('Team Number')
 
-    finalWorksheet = pd.concat([winRateResults,teleOpStats,autoStats], ignore_index=False, axis = 1).reset_index().reset_index().rename(columns = {'index': 'Ranking', 'W/L': 'Winrate'})
+    finalWorksheet = pd.concat([winRateResults,teleOpStats,autoStats], ignore_index=False, axis = 1).reset_index()
 
     finalWorksheet['Overall Score'] = finalWorksheet['Tele-op Charge Station'] + finalWorksheet['Auto Charge Station'] + finalWorksheet['Auto Total Score'] + finalWorksheet['Tele-op Total Score']
 
-    finalWorksheet = finalWorksheet.sort_values(by = 'Overall Score')
+    finalWorksheet = finalWorksheet.sort_values(by = 'Overall Score').reset_index().rename(columns = {'index': 'Ranking', 'W/L': 'Winrate'})
     mainWorkSheet.get_worksheet(5).clear()
     mainWorkSheet.get_worksheet(5).update([finalWorksheet.columns.values.tolist()] + finalWorksheet.values.tolist())
 
