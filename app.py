@@ -66,10 +66,25 @@ def updateAnalysis():
     mainWorkSheet.get_worksheet(4).clear()
     mainWorkSheet.get_worksheet(4).update([processData.columns.values.tolist()] + processData.values.tolist())
 
+def updateFinalWorksheet():
+    winRateResults = pd.DataFrame(mainWorkSheet.get_worksheet(4).get_all_records())[['Team Number', 'W/L']].sort_values(by = 'Team Number').set_index('Team Number')
+    teleOpStats = pd.DataFrame(mainWorkSheet.get_worksheet(2).get_all_records())[['Team Number', 'Tele-op Charge Station', 'Tele-op Total Score']].sort_values(by = 'Team Number').set_index('Team Number')
+    autoStats =  pd.DataFrame(mainWorkSheet.get_worksheet(1).get_all_records())[['Team Number', 'Auto Charge Station', 'Auto Total Score']].sort_values(by = 'Team Number').set_index('Team Number')
+
+    finalWorksheet = pd.concat([winRateResults,teleOpStats,autoStats], ignore_index=False, axis = 1).reset_index().reset_index().rename(columns = {'index': 'Ranking', 'W/L': 'Winrate'})
+
+    finalWorksheet['Overall Score'] = finalWorksheet['Tele-op Charge Station'] + finalWorksheet['Auto Charge Station'] + finalWorksheet['Auto Total Score'] + finalWorksheet['Tele-op Total Score']
+
+    finalWorksheet = finalWorksheet.sort_values(by = 'Overall Score')
+    mainWorkSheet.get_worksheet(5).clear()
+    mainWorkSheet.get_worksheet(5).update([finalWorksheet.columns.values.tolist()] + finalWorksheet.values.tolist())
+
 def addData(dictionary):
     dataFrame = pd.DataFrame(worksheet.get_all_records())
-    testData = dictionary
-    dataframe = pd.DataFrame(testData, index = [0])
+    dataframe = pd.DataFrame()
+    for i in dictionary:
+        testData = pd.DataFrame(i, index = [0])
+        dataframe  = pd.concat([dataframe, testData], ignore_index = True)
     dataframe = processRawData(dataframe)
     dataframe = pd.concat([dataFrame, dataframe], ignore_index=True)
     worksheet.clear()
@@ -78,6 +93,9 @@ def addData(dictionary):
     updateTele()
     updateTotal()
     updateAnalysis()
+    updateFinalWorksheet()
+    
+storedRequest = []
 
 @app.route('/')
 def index():
@@ -86,9 +104,12 @@ def index():
 @app.route('/api', methods = ['GET', 'POST'])
 def api():
     if request.method == 'POST':
+        global storedRequest
         req = request.form.to_dict()
-        print(req)
-        addData(req)
+        storedRequest.append(req)
+        if len(storedRequest) > 3:
+            addData(storedRequest)
+            storedRequest = []
     return render_template('submissionForm.html', templates='templates')
 
 @app.route('/data')
