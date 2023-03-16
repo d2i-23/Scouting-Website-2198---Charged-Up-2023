@@ -9,6 +9,23 @@ let previousCone = 0
 let previousCube = 0
 let previousAuto = 0
 let previousScore = 0
+const form = document.getElementById('scoutForm')
+
+form.addEventListener('submit', (e) => {
+    if (
+        $('#teamNo').val() === '' ||
+        $('#matchNo').val() === '' ||
+        $('#allianceColor').val() === ''||
+        $('#winOrLoss').val() === ''||
+        $('#autoChargeStation').val() === ''||
+        $('#autoCross').val() === ''||
+        $('#gameplayPositon').val() === ''||
+        $('#teleChargeStation').val() === ''
+    ){
+        e.preventDefault()
+        alert('Form uncompleted')
+    }
+})
 
 function updateDontMind(){
     $('#lowerCubek').val($('#lowerCube').text())
