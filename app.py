@@ -107,7 +107,7 @@ def api():
         global storedRequest
         req = request.form.to_dict()
         storedRequest.append(req)
-        if len(storedRequest) > 3:
+        if len(storedRequest) > 2:
             addData(storedRequest)
             storedRequest = []
     return render_template('submissionForm.html', templates='templates')
