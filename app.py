@@ -9,7 +9,6 @@ mainWorkSheet = gc.open_by_url('https://docs.google.com/spreadsheets/d/1NPK8B3CF
 worksheet = mainWorkSheet.get_worksheet(0)
 
 def processRawData(dataFrame):
-    dataFrame = dataFrame.dropna(thresh=10).drop_duplicates(subset = ['Team Number', 'Match Number'], keep = 'first')
     idList = ['Team Number', 'Match Number', 'Lower Cube Scored', 'Middle Cube Scored', 'Upper Cube Scored', 'Lower Cone Scored', 'Upper Cone Scored', 'Middle Cone Scored', 'Lower Auto Score', 'Middle Auto Score', 'Upper Auto Score', 'Lower Total Score', 'Middle Total Score', 'Upper Total Score']
     for i in idList:
         string = 'dataFrame["' + i + '"] = dataFrame["' + i + '"].astype("int32", errors = "ignore")'
@@ -87,6 +86,7 @@ def addData(dictionary):
         dataframe  = pd.concat([dataframe, testData], ignore_index = True)
     dataframe = processRawData(dataframe)
     dataframe = pd.concat([dataFrame, dataframe], ignore_index=True)
+    dataframe = dataframe.dropna(thresh=5).drop_duplicates(subset = ['Team Number', 'Match Number'], keep = 'first')
     worksheet.clear()
     worksheet.update([dataframe.columns.values.tolist()] + dataframe.values.tolist())
     updateAutonomous()
