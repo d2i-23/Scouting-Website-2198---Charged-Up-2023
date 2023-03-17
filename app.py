@@ -34,7 +34,6 @@ def updateTele():
     processData['Middle Tele-op Score'] = processData['Middle Total Score'] - processData['Middle Auto Score']
     processData['Upper Tele-op Score'] = processData['Upper Total Score'] - processData['Upper Auto Score']
     processData['Tele-op Total Score'] = processData['Lower Tele-op Score'] + processData['Middle Tele-op Score'] + processData['Upper Tele-op Score']
-    print(processData[processData['Team Number'] == 3213])
     processData= processData.groupby(by = 'Team Number', as_index = True).apply(lambda x: x.sum(numeric_only = True) / x['Count'].sum()).sort_values(by = 'Tele-op Total Score', ascending = False)
     processData.drop(['Count', 'Lower Auto Score', 'Middle Auto Score', 'Upper Auto Score', 'Lower Total Score', 'Middle Total Score','Upper Total Score'], inplace = True, axis = 1)
     autoWordSheet = mainWorkSheet.get_worksheet(2)
@@ -70,13 +69,15 @@ def updateFinalWorksheet():
     teleOpStats = pd.DataFrame(mainWorkSheet.get_worksheet(2).get_all_records())[['Team Number', 'Tele-op Charge Station', 'Tele-op Total Score']].sort_values(by = 'Team Number').set_index('Team Number')
     autoStats =  pd.DataFrame(mainWorkSheet.get_worksheet(1).get_all_records())[['Team Number', 'Auto Charge Station', 'Auto Total Score']].sort_values(by = 'Team Number').set_index('Team Number')
 
-    finalWorksheet = pd.concat([winRateResults,teleOpStats,autoStats], ignore_index=False, axis = 1).reset_index()
+    finalWorksheet = pd.concat([winRateResults,teleOpStats,autoStats], ignore_index=False, axis = 1)
 
     finalWorksheet['Overall Score'] = finalWorksheet['Tele-op Charge Station'] + finalWorksheet['Auto Charge Station'] + finalWorksheet['Auto Total Score'] + finalWorksheet['Tele-op Total Score']
 
-    finalWorksheet = finalWorksheet.sort_values(by = 'Overall Score').reset_index().rename(columns = {'index': 'Ranking', 'W/L': 'Winrate'})
+    finalWorksheet = finalWorksheet.sort_values(by = 'Overall Score', ascending = False).reset_index().reset_index().rename(columns = {'index': 'Ranking', 'W/L': 'Winrate'})
+    finalWorksheet['Ranking'] = finalWorksheet['Ranking'] + 1
     mainWorkSheet.get_worksheet(5).clear()
     mainWorkSheet.get_worksheet(5).update([finalWorksheet.columns.values.tolist()] + finalWorksheet.values.tolist())
+   
 
 def addData(dictionary):
     dataFrame = pd.DataFrame(worksheet.get_all_records())
@@ -99,6 +100,7 @@ storedRequest = []
 
 @app.route('/')
 def index():
+    updateFinalWorksheet()
     return redirect(url_for('api'))
 
 @app.route('/api', methods = ['GET', 'POST'])
@@ -106,7 +108,11 @@ def api():
     if request.method == 'POST':
         global storedRequest
         req = request.form.to_dict()
-        storedRequest.append(req)
+        if req['Team Number'] == '' or req['Match Number'] == '' or req['Allaince Color'] == '' or req['W/L'] == '' or req['Auto Charge Station'] == '' or req['Auto Taxi'] == '' or req['Gameplay Position'] == '' or req['Tele-op Charge Station'] == '':
+            #This ridiculously long if statement is to a precaution for if the form bypasses the submission requirement by refreshing the page after previously inputting something
+            pass
+        else:
+            storedRequest.append(req)
         if len(storedRequest) > 2:
             addData(storedRequest)
             storedRequest = []

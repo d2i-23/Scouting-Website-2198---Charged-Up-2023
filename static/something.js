@@ -36,7 +36,7 @@ function updateDontMind(){
     $('#upperConek').val($('#upperCone').text())
     $('#lowerAutok').val($('#lowerAuto').text())
     $('#middleAutok').val($('#middleAuto').text())
-    $('#upperAutok').val($('#upperScore').text())
+    $('#upperAutok').val($('#upperAuto').text())
     $('#lowerScorek').val($('#lowerScore').text())
     $('#middleScorek').val($('#middleScore').text())
     $('#upperScorek').val($('#upperScore').text())
@@ -111,8 +111,10 @@ function tablePlotter(item, gridValue){
 }
 
 $('input.dontMind').hide()
+$('#submit').hide()
 
 $().ready(function(){
+    $('#submit').show()
     $('button.itemButton').click(function(){
         item = '#'+buttonID
         
