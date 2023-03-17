@@ -100,7 +100,6 @@ storedRequest = []
 
 @app.route('/')
 def index():
-    updateFinalWorksheet()
     return redirect(url_for('api'))
 
 @app.route('/api', methods = ['GET', 'POST'])
