@@ -48,7 +48,7 @@ def updateTotal():
     totalWorksheet['Middle Total Score'] = totalWorksheet['Middle Tele-op Score'] + totalWorksheet['Middle Auto Score']
     totalWorksheet['Upper Total Score'] = totalWorksheet['Upper Tele-op Score'] + totalWorksheet['Upper Auto Score']
     totalWorksheet['Total Charge Station'] = totalWorksheet['Tele-op Charge Station'] + totalWorksheet['Auto Charge Station']
-    totalWorksheet['Total Score'] = totalWorksheet['Tele-op Total Score'] + totalWorksheet['Auto Total Score']
+    totalWorksheet['Total Score'] = totalWorksheet['Lower Total Score'] + totalWorksheet['Middle Total Score'] + totalWorksheet['Upper Total Score'] + totalWorksheet['Total Charge Station']
     newtotalWorksheet = totalWorksheet[['Lower Total Score', 'Middle Total Score', 'Upper Total Score', 'Total Charge Station', 'Total Score']].reset_index()
     mainWorkSheet.get_worksheet(3).clear()
     mainWorkSheet.get_worksheet(3).update([newtotalWorksheet.columns.values.tolist()] + newtotalWorksheet.values.tolist())
