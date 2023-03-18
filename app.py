@@ -107,7 +107,8 @@ def api():
     if request.method == 'POST':
         global storedRequest
         req = request.form.to_dict()
-        if req['Team Number'] == '' or req['Match Number'] == '' or req['Allaince Color'] == '' or req['W/L'] == '' or req['Auto Charge Station'] == '' or req['Auto Taxi'] == '' or req['Gameplay Position'] == '' or req['Tele-op Charge Station'] == '':
+        print(req)
+        if req['Team Number'] == '' or req['Match Number'] == '' or req['Alliance Color'] == '' or req['W/L'] == '' or req['Auto Charge Station'] == '' or req['Auto Taxi'] == '' or req['Gameplay Position'] == '' or req['Tele-op Charge Station'] == '':
             #This ridiculously long if statement is to a precaution for if the form bypasses the submission requirement by refreshing the page after previously inputting something
             pass
         else:
