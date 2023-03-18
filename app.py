@@ -33,7 +33,7 @@ def updateTele():
     processData['Lower Tele-op Score'] = processData['Lower Total Score'] - processData['Lower Auto Score']
     processData['Middle Tele-op Score'] = processData['Middle Total Score'] - processData['Middle Auto Score']
     processData['Upper Tele-op Score'] = processData['Upper Total Score'] - processData['Upper Auto Score']
-    processData['Tele-op Total Score'] = processData['Lower Tele-op Score'] + processData['Middle Tele-op Score'] + processData['Upper Tele-op Score']
+    processData['Tele-op Total Score'] = processData['Lower Tele-op Score'] + processData['Middle Tele-op Score'] + processData['Upper Tele-op Score'] + processData['Tele-op Charge Station']
     processData= processData.groupby(by = 'Team Number', as_index = True).apply(lambda x: x.sum(numeric_only = True) / x['Count'].sum()).sort_values(by = 'Tele-op Total Score', ascending = False)
     processData.drop(['Count', 'Lower Auto Score', 'Middle Auto Score', 'Upper Auto Score', 'Lower Total Score', 'Middle Total Score','Upper Total Score'], inplace = True, axis = 1)
     autoWordSheet = mainWorkSheet.get_worksheet(2)
