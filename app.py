@@ -81,8 +81,8 @@ def portal():
     if request.method == 'POST':
         req = request.form.to_dict()
         if req['passCode'] == 'hammyjammybreaks887!#':
-            teamList = updateStatBox(True, changedNumbers)
             updateAll()
+            teamList = updateStatBox(True, changedNumbers)
             return render_template('spreadSheetData.html', templates = 'template', teamList = teamList)
     return render_template('secretPage.html', templates = 'template' )
 
