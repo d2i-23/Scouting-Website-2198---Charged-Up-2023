@@ -320,3 +320,44 @@ button.autoButton{
     height:50px;
     border:2px solid #fcc203
 }
+
+p{
+    font-size:100%;
+    white-space: nowrap;
+    line-height:40%;
+    
+}
+
+p.bolder{
+    font-weight:bolder;
+    line-height:100%;
+    border-bottom:solid #A8AEBD 2px;
+    font-size:200%;
+}
+
+b{
+    color: #fcc203;
+}
+
+ul{
+    list-style-type:square;
+}
+
+li{
+    color:white;
+}
+
+.statbox{
+    width: auto;
+    height: auto;
+    background-color:#142130;
+    border: #fcc203 solid 2px; 
+    border-radius:5px;
+    padding:10px;
+    overflow:-moz-hidden-unscrollable;
+}
+
+.button.arrows{
+    background-color:black;
+    color:#fcc203;
+}

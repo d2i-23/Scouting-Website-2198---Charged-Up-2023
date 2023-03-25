@@ -1,9 +1,10 @@
 import pandas as pd
 import gspread as gs 
-from app import worksheet
 
 gc = gs.service_account('googleService.json')
 mainWorkSheet = gc.open_by_url('https://docs.google.com/spreadsheets/d/1NPK8B3CFtDfY_CaPi3BkOUvlktXQY2y3SsNFlIXqhhs/edit#gid=0')
+analysisWorksheet = pd.DataFrame(mainWorkSheet.get_worksheet(4).get_all_records())
+worksheet = pd.DataFrame(mainWorkSheet.get_worksheet(0).get_all_records())
 
 def updateAutonomous():
     processData = worksheet[['Team Number','Lower Auto Score', 'Middle Auto Score', 'Upper Auto Score', 'Auto Charge Station']]
@@ -45,15 +46,16 @@ def updateAnalysis():
     processData = worksheet
     processData = processData.drop(['Match Number', 'Alliance Color', 'Comment'], axis = 1)
     processData1 = processData[['Team Number', 'W/L', 'Auto Taxi', 'Gameplay Position']].groupby('Team Number', as_index = True).apply(lambda x: (x[x == 'TRUE']).count()/x.count())[['W/L', 'Auto Taxi', 'Gameplay Position']]
-    processData2 = processData[['Team Number', 'Tele-op Charge Station', 'Auto Charge Station']].groupby('Team Number', as_index = True).apply(lambda x: (x[x > 0]).count()/x.count())[['Tele-op Charge Station', 'Auto Charge Station']]
+    processData2 = processData[['Team Number', 'Tele-op Charge Station', 'Auto Charge Station']].groupby('Team Number', as_index = True).apply(lambda x: (x[x >= 10]).count()/x.count())[['Tele-op Charge Station', 'Auto Charge Station']]
     processData['Total Score'] = processData['Lower Total Score'] + processData['Middle Total Score'] + processData['Upper Total Score']
     processData3 = processData[['Team Number', 'Lower Total Score', 'Middle Total Score', 'Upper Total Score', 'Total Score']].groupby('Team Number', as_index = True).apply(lambda x: x.sum()/x['Total Score'].sum())[['Lower Total Score', 'Upper Total Score', 'Middle Total Score']]
     processData = pd.concat([processData1, processData2, processData3], axis = 1).reset_index().fillna(0)
+    analysisWorksheet = processData
     mainWorkSheet.get_worksheet(4).clear()
     mainWorkSheet.get_worksheet(4).update([processData.columns.values.tolist()] + processData.values.tolist())
 
 def updateFinalWorksheet():
-    winRateResults = pd.DataFrame(mainWorkSheet.get_worksheet(4).get_all_records())[['Team Number', 'W/L']].sort_values(by = 'Team Number').set_index('Team Number')
+    winRateResults = pd.DataFrame(mainWorkSheet.get_worksheet(4).get_all_records())[['Team Number', 'W/L', 'Gameplay Position']].sort_values(by = 'Team Number').set_index('Team Number')
     teleOpStats = pd.DataFrame(mainWorkSheet.get_worksheet(2).get_all_records())[['Team Number', 'Tele-op Charge Station', 'Tele-op Total Score']].sort_values(by = 'Team Number').set_index('Team Number')
     autoStats =  pd.DataFrame(mainWorkSheet.get_worksheet(1).get_all_records())[['Team Number', 'Auto Charge Station', 'Auto Total Score']].sort_values(by = 'Team Number').set_index('Team Number')
 
@@ -66,9 +68,9 @@ def updateFinalWorksheet():
     mainWorkSheet.get_worksheet(5).clear()
     mainWorkSheet.get_worksheet(5).update([finalWorksheet.columns.values.tolist()] + finalWorksheet.values.tolist())
    
-
-updateAutonomous()
-updateTele()
-updateTotal()
-updateAnalysis()
-updateFinalWorksheet()
+def updateAll():
+    updateAutonomous()
+    updateTele()
+    updateTotal()
+    updateAnalysis()
+    updateFinalWorksheet()

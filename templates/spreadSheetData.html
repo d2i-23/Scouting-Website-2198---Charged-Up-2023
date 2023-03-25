@@ -8,6 +8,9 @@
 </head>
 <link rel = "StyleSheet" type = "text/css" href = "{{url_for('static', filename='overall.css')}}"></link>
 <script src = "{{url_for('static', filename='jquery.js')}}"></script>
+<script>var teamList = {{ teamList | tojson }}; console.log('hihi');    console.log(teamList);</script>
+<script src = "{{url_for('static', filename='loadJson.js')}}"></script>
+
 <body>
     <div class = 'uppergrid'>
         <div class = 'item2'><img src = "{{url_for('static', filename='logo.png')}}" width = '5000' height = '50'></div>
@@ -19,7 +22,16 @@
         <h2>Spreadsheet</h2>
         <label>The spreadsheet can be accessed through this <a href = 'https://docs.google.com/spreadsheets/d/1NPK8B3CFtDfY_CaPi3BkOUvlktXQY2y3SsNFlIXqhhs/edit?usp=sharing'>link</a>. Take note that it takes a few minute to update, so just refer to the actual spreadsheet if its urgent. Also, the spreadsheet only updates once every few submissions.</label>
         <br><br>
-        <div class = 'center'><iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRtWoLcqSkBYnEPZ6hrxRuvZmUtEhiZN8XN5t2NQZy3h3SmSB4DMupICpVZ4_zJr5nHs2RQ0tkMsXf3/pubhtml?widget=true&amp;headers=false"></iframe>
+
+        <h2>Team Data</h2>
+        {% include 'stats.html' %}
+        <br><br>
+       <div class = 'center'>
+            <button class = 'button arrows' id = 'backPage' onclick = 'idel(this)'> << </button>
+            <label class = 'arrows' id = 'pageIndicator'>1 out of 6</label>
+            <button class = 'button arrows' id = 'movePage' onclick = 'idel(this)'> >> </button>
+       </div>
     </div>
+
 </body>
 </html>
