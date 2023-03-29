@@ -17,7 +17,6 @@ function adjustTheJsonDisplay(page){
     adjustedEnder = teamList.length
   }
   for (let i = 0; i < teamList.length; i++){
-    console.log('hi')
     $('#' + teamList[i]).hide()
   }
 
@@ -28,7 +27,6 @@ function adjustTheJsonDisplay(page){
 
 function idel(e){
   buttonId = e.id
-  console.log(buttonId)
   e.preventDefault
 }
 
@@ -41,18 +39,13 @@ $().ready(function(){
   $('button').click(function(){
     if (buttonId == 'backPage' && page != 1){
       page -= 1
-      console.log('hi')
       adjustTheJsonDisplay(page)
      $('#pageIndicator').text(`${page} out of ${noOfPages}`)
     }
     else if (buttonId == 'movePage' && page + 1 <= noOfPages){
       page += 1
-      console.log('h2')
       adjustTheJsonDisplay(page)
       $('#pageIndicator').text(`${page} out of ${noOfPages}`)
-    }
-    else{
-      console.log('you suck')
     }
   })
 })
