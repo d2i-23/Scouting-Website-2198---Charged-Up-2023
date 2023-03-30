@@ -97,17 +97,17 @@ def data():
 @app.route('/cantFindMe', methods = ['GET', 'POST'])
 def portal():
     if request.method == 'POST':
+        global changedNumber
         req = request.form.to_dict()
         if req['passCode'] == '21982198':
             updateAll()
             teamList = updateStatBox(True, changedNumbers)
-            return render_template('spreadSheetData.html', templates = 'template', teamList = teamList)
         
         elif req['passCode'] == 'clearEverything123':
             for i in range(0,6):
                 mainWorkSheet.get_worksheet(i).clear()
             updateStatBox(True)
-
+            changedNumber = []
 
     return render_template('secretPage.html', templates = 'template' )
 
