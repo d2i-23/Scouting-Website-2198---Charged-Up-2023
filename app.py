@@ -106,9 +106,14 @@ def portal():
         elif req['passCode'] == 'clearEverything123':
             for i in range(0,6):
                 mainWorkSheet.get_worksheet(i).clear()
-            updateStatBox(True)
+            updateStatBox(True, trueDelete = True)
             changedNumber = []
 
+        elif req['passCode'] == 'resetJson067':
+            teamList = updateStatBox(True, changedNumber = [])
+            changedNumbers = []
+            #this is for if the data had to be resetted or restored to a certain point in time 
+            
     return render_template('secretPage.html', templates = 'template' )
 
 # main driver function

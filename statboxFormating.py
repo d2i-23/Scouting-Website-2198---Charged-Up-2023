@@ -9,13 +9,19 @@ mainWorkSheet = gc.open_by_url('https://docs.google.com/spreadsheets/d/1NPK8B3CF
 folder_path = 'jsonSaves'
 
 
-def updateStatBox(deleteOrNot, changedNumber = []):
+def updateStatBox(deleteOrNot, changedNumber = [], trueDelete = False):
+
     files = os.listdir(folder_path)
-    analysisWorksheet = pd.DataFrame(mainWorkSheet.get_worksheet(5).get_all_records()).set_index('Team Number')
-    comments = pd.DataFrame(mainWorkSheet.get_worksheet(0).get_all_records())
-    comments = comments.loc[comments['Comment'] != '', ['Team Number', 'Comment']].groupby('Team Number').apply(lambda x: ','.join(x['Comment']).split(',')).set_index('Team Number')    #.groupby('Team Number').apply(lambda x: ','.join(x).split(','))
-    analysisWorksheet = pd.concat([analysisWorksheet, comments], axis = 1).rename(columns = {0: 'Comment'})
+    
+    try:
+        analysisWorksheet = pd.DataFrame(mainWorkSheet.get_worksheet(5).get_all_records()).set_index('Team Number')
+        comments = pd.DataFrame(mainWorkSheet.get_worksheet(0).get_all_records())
+        comments = comments.loc[comments['Comment'] != '', ['Team Number', 'Comment']].groupby('Team Number').apply(lambda x: ','.join(x['Comment']).split(',')).set_index('Team Number')    #.groupby('Team Number').apply(lambda x: ','.join(x).split(','))
+        analysisWorksheet = pd.concat([analysisWorksheet, comments], axis = 1).rename(columns = {0: 'Comment'}) 
+    except:
+        analysisWorksheet = pd.DataFrame()
     teamListList = analysisWorksheet.index.tolist()
+
     if deleteOrNot:
         for file in files:
             file_path = os.path.join(folder_path, file)
@@ -25,6 +31,8 @@ def updateStatBox(deleteOrNot, changedNumber = []):
             except Exception as e:
                 print('file undeletable or no files exist')
         teamList = teamListList
+        if trueDelete: 
+            return None 
     else:
         teamList = changedNumber
 
@@ -70,6 +78,7 @@ def createHTML():
             <ul>
             {listedComments}
             </ul>
+
             
         </div>
         <br>
