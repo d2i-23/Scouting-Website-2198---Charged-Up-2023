@@ -13,16 +13,20 @@ def updateStatBox(deleteOrNot, changedNumber = [], trueDelete = False):
 
     files = os.listdir(folder_path)
     
- 
-    analysisWorksheet = pd.DataFrame(mainWorkSheet.get_worksheet(5).get_all_records()).set_index('Team Number')
-    comments = pd.DataFrame(mainWorkSheet.get_worksheet(0).get_all_records())
-    comments = comments.loc[comments['Comment'] != '', ['Team Number', 'Comment']].groupby('Team Number').apply(lambda x: ','.join(x['Comment']).split(','))    #.groupby('Team Number').apply(lambda x: ','.join(x).split(','))
-    analysisWorksheet = pd.concat([analysisWorksheet, comments], axis = 1).rename(columns = {0: 'Comment'}) 
-
+    if not trueDelete:
+        try:
+            analysisWorksheet = pd.DataFrame(mainWorkSheet.get_worksheet(5).get_all_records()).set_index('Team Number')
+            comments = pd.DataFrame(mainWorkSheet.get_worksheet(0).get_all_records())
+            comments = comments.loc[comments['Comment'] != '', ['Team Number', 'Comment']].groupby('Team Number').apply(lambda x: ','.join(x['Comment']).split(','))    #.groupby('Team Number').apply(lambda x: ','.join(x).split(','))
+            analysisWorksheet = pd.concat([analysisWorksheet, comments], axis = 1).rename(columns = {0: 'Comment'}) 
+        except KeyError:
+            analysisWorksheet = pd.DataFrame()
+    else:
+        analysisWorksheet = pd.DataFrame()
     teamListList = analysisWorksheet.index.tolist()
     
 
-    if deleteOrNot:
+    if deleteOrNot or trueDelete:
         for file in files:
             file_path = os.path.join(folder_path, file)
             try:
