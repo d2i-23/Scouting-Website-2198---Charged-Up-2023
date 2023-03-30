@@ -6,16 +6,16 @@ import os
 
 gc = gs.service_account('googleService.json')
 mainWorkSheet = gc.open_by_url('https://docs.google.com/spreadsheets/d/1NPK8B3CFtDfY_CaPi3BkOUvlktXQY2y3SsNFlIXqhhs/edit#gid=0')
-analysisWorksheet = pd.DataFrame(mainWorkSheet.get_worksheet(5).get_all_records()).set_index('Team Number')
-comments = pd.DataFrame(mainWorkSheet.get_worksheet(0).get_all_records())
-comments = comments.loc[comments['Comment'] != '', ['Team Number', 'Comment']].groupby('Team Number').apply(lambda x: ','.join(x['Comment']).split(','))    #.groupby('Team Number').apply(lambda x: ','.join(x).split(','))
-analysisWorksheet = pd.concat([analysisWorksheet, comments], axis = 1).rename(columns = {0: 'Comment'})
 folder_path = 'jsonSaves'
-files = os.listdir(folder_path)
-teamListList = analysisWorksheet.index.tolist()
 
 
 def updateStatBox(deleteOrNot, changedNumber = []):
+    files = os.listdir(folder_path)
+    analysisWorksheet = pd.DataFrame(mainWorkSheet.get_worksheet(5).get_all_records()).set_index('Team Number')
+    comments = pd.DataFrame(mainWorkSheet.get_worksheet(0).get_all_records())
+    comments = comments.loc[comments['Comment'] != '', ['Team Number', 'Comment']].groupby('Team Number').apply(lambda x: ','.join(x['Comment']).split(','))    #.groupby('Team Number').apply(lambda x: ','.join(x).split(','))
+    analysisWorksheet = pd.concat([analysisWorksheet, comments], axis = 1).rename(columns = {0: 'Comment'})
+    teamListList = analysisWorksheet.index.tolist()
     if deleteOrNot:
         for file in files:
             file_path = os.path.join(folder_path, file)
@@ -44,6 +44,7 @@ def updateStatBox(deleteOrNot, changedNumber = []):
 
 
 def createHTML():
+    files = os.listdir(folder_path)
     htmlStore = ''
     for file in files:
         listedComments = ""
@@ -74,6 +75,7 @@ def createHTML():
         '''
     with open('templates\\stats.html', 'w') as s:
         s.write(htmlStore)
+        s.close()
     #return open('stats.html', 'r')
     
 
