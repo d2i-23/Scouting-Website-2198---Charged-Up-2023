@@ -13,14 +13,14 @@ def updateStatBox(deleteOrNot, changedNumber = [], trueDelete = False):
 
     files = os.listdir(folder_path)
     
-    try:
-        analysisWorksheet = pd.DataFrame(mainWorkSheet.get_worksheet(5).get_all_records()).set_index('Team Number')
-        comments = pd.DataFrame(mainWorkSheet.get_worksheet(0).get_all_records())
-        comments = comments.loc[comments['Comment'] != '', ['Team Number', 'Comment']].groupby('Team Number').apply(lambda x: ','.join(x['Comment']).split(',')).set_index('Team Number')    #.groupby('Team Number').apply(lambda x: ','.join(x).split(','))
-        analysisWorksheet = pd.concat([analysisWorksheet, comments], axis = 1).rename(columns = {0: 'Comment'}) 
-    except:
-        analysisWorksheet = pd.DataFrame()
+ 
+    analysisWorksheet = pd.DataFrame(mainWorkSheet.get_worksheet(5).get_all_records()).set_index('Team Number')
+    comments = pd.DataFrame(mainWorkSheet.get_worksheet(0).get_all_records())
+    comments = comments.loc[comments['Comment'] != '', ['Team Number', 'Comment']].groupby('Team Number').apply(lambda x: ','.join(x['Comment']).split(','))    #.groupby('Team Number').apply(lambda x: ','.join(x).split(','))
+    analysisWorksheet = pd.concat([analysisWorksheet, comments], axis = 1).rename(columns = {0: 'Comment'}) 
+
     teamListList = analysisWorksheet.index.tolist()
+    
 
     if deleteOrNot:
         for file in files:
@@ -31,6 +31,7 @@ def updateStatBox(deleteOrNot, changedNumber = [], trueDelete = False):
             except Exception as e:
                 print('file undeletable or no files exist')
         teamList = teamListList
+        print('')
         if trueDelete: 
             return None 
     else:
@@ -38,8 +39,12 @@ def updateStatBox(deleteOrNot, changedNumber = [], trueDelete = False):
 
     for i in teamList: 
         i = int(i)
-        located = analysisWorksheet.loc[i] 
-        located = located.to_dict()
+        try:
+            located = analysisWorksheet.loc[i] 
+            located = located.to_dict()
+        except KeyError: 
+            pass
+            
         try: 
             for j in range(len(located['Comment'])):
                 if located['Comment'][j].find("’") > -1:
