@@ -20,7 +20,7 @@ function adjustTheJsonDisplay(page){
     $('#' + teamList[i]).hide()
   }
 
-  for (let i = adjustedStarter; i < adjustedEnder; i++){
+  for (let i = adjustedStarter; i < adjustedEnder + 1; i++){
     $('#' + teamList[i]).show()
   } 
 }
