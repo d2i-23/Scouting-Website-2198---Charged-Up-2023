@@ -65,7 +65,7 @@ def api():
             print(fakeChangedNumber, req['Team Number'])
             storedRequest.append(req)
             currentCount = len(storedRequest)
-            if currentCount == 3:
+            if currentCount >= 3:
                 addData(storedRequest)
                 storedRequest = []
                 notEmpty = True 
@@ -102,6 +102,13 @@ def portal():
             updateAll()
             teamList = updateStatBox(True, changedNumbers)
             return render_template('spreadSheetData.html', templates = 'template', teamList = teamList)
+        
+        elif req['passCode'] == 'clearEverything123':
+            for i in range(0,6):
+                mainWorkSheet.get_worksheet(i).clear()
+            updateStatBox(True)
+
+
     return render_template('secretPage.html', templates = 'template' )
 
 # main driver function
