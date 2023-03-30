@@ -1,5 +1,6 @@
 
 teamList.sort()
+console.log(teamList)
 
 let noOfPages = Math.floor(teamList.length/5) 
 let buttonId = 0
@@ -12,6 +13,9 @@ function adjustTheJsonDisplay(page){
   page = page - 1
   let adjustedStarter = 0 + 5*page 
   let adjustedEnder = adjustedStarter + 4
+
+  console.log(adjustedStarter)
+  console.log(adjustedEnder)
   
   if (adjustedEnder > teamList.length){
     adjustedEnder = teamList.length

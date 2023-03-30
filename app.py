@@ -12,6 +12,7 @@ worksheet = pd.DataFrame()
 deleteOrNot = True
 changedNumbers = []
 fakeChangedNumber = []
+storedRequest = []
 
 def check():
     global worksheet
@@ -28,19 +29,21 @@ def processRawData(dataFrame):
     return dataFrame
 
 def addData(dictionary):
-    global worksheet
+    global storedRequest
     dataframe = pd.DataFrame()
     for i in dictionary:
         testData = pd.DataFrame(i, index = [0])
         dataframe  = pd.concat([dataframe, testData], ignore_index = True)
     dataframe = processRawData(dataframe)
-    dataframe = pd.concat([worksheet, dataframe], ignore_index=True)
+    dataframe = pd.concat([pd.DataFrame(mainWorkSheet.get_worksheet(0).get_all_records()), dataframe], ignore_index=True)
     dataframe = dataframe.dropna(thresh=5).drop_duplicates(subset = ['Team Number', 'Match Number'], keep = 'first')
-    worksheet = dataframe
+    print(dataframe['Team Number'].tolist())
+    
+    storedRequest = []
     mainWorkSheet.get_worksheet(0).clear()
     mainWorkSheet.get_worksheet(0).update([dataframe.columns.values.tolist()] + dataframe.values.tolist())
     
-storedRequest = []
+
 
 @app.route('/')
 def index():
@@ -55,6 +58,7 @@ def api():
         global storedRequest, notEmpty, fakeChangedNumber, changedNumbers
         req = request.form.to_dict()
         print(req)
+        print(storedRequest)
         if req['Team Number'] == '' or req['Match Number'] == '' or req['Alliance Color'] == '' or req['W/L'] == '' or req['Auto Charge Station'] == '' or req['Auto Taxi'] == '' or req['Gameplay Position'] == '' or req['Tele-op Charge Station'] == '':
             #This ridiculously long if statement is to a precaution for if the form bypasses the submission requirement by refreshing the page after previously inputting something
             pass
@@ -106,6 +110,7 @@ def portal():
         elif req['passCode'] == 'clearEverything123':
             for i in range(0,6):
                 mainWorkSheet.get_worksheet(i).clear()
+                print('yo')
             updateStatBox(True, trueDelete = True)
             changedNumber = []
 
