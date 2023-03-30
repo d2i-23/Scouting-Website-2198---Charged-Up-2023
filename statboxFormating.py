@@ -13,7 +13,7 @@ def updateStatBox(deleteOrNot, changedNumber = []):
     files = os.listdir(folder_path)
     analysisWorksheet = pd.DataFrame(mainWorkSheet.get_worksheet(5).get_all_records()).set_index('Team Number')
     comments = pd.DataFrame(mainWorkSheet.get_worksheet(0).get_all_records())
-    comments = comments.loc[comments['Comment'] != '', ['Team Number', 'Comment']].groupby('Team Number').apply(lambda x: ','.join(x['Comment']).split(','))    #.groupby('Team Number').apply(lambda x: ','.join(x).split(','))
+    comments = comments.loc[comments['Comment'] != '', ['Team Number', 'Comment']].groupby('Team Number').apply(lambda x: ','.join(x['Comment']).split(',')).set_index('Team Number')    #.groupby('Team Number').apply(lambda x: ','.join(x).split(','))
     analysisWorksheet = pd.concat([analysisWorksheet, comments], axis = 1).rename(columns = {0: 'Comment'})
     teamListList = analysisWorksheet.index.tolist()
     if deleteOrNot:
@@ -27,7 +27,9 @@ def updateStatBox(deleteOrNot, changedNumber = []):
         teamList = teamListList
     else:
         teamList = changedNumber
+
     for i in teamList: 
+        i = int(i)
         located = analysisWorksheet.loc[i] 
         located = located.to_dict()
         try: 

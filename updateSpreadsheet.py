@@ -66,6 +66,7 @@ def updateFinalWorksheet():
 
     finalWorksheet = finalWorksheet.sort_values(by = 'Overall Score', ascending = False).reset_index().reset_index().rename(columns = {'index': 'Ranking', 'W/L': 'Winrate'})
     finalWorksheet['Ranking'] = finalWorksheet['Ranking'] + 1
+   
     mainWorkSheet.get_worksheet(5).clear()
     mainWorkSheet.get_worksheet(5).update([finalWorksheet.columns.values.tolist()] + finalWorksheet.values.tolist())
    

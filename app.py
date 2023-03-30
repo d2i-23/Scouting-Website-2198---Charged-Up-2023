@@ -11,6 +11,7 @@ mainWorkSheet = gc.open_by_url('https://docs.google.com/spreadsheets/d/1NPK8B3CF
 worksheet = pd.DataFrame()
 deleteOrNot = True
 changedNumbers = []
+fakeChangedNumber = []
 
 def check():
     global worksheet
@@ -50,7 +51,8 @@ def api():
     
     global deleteOrNot
     if request.method == 'POST':
-        global storedRequest, notEmpty
+       
+        global storedRequest, notEmpty, fakeChangedNumber, changedNumbers
         req = request.form.to_dict()
         print(req)
         if req['Team Number'] == '' or req['Match Number'] == '' or req['Alliance Color'] == '' or req['W/L'] == '' or req['Auto Charge Station'] == '' or req['Auto Taxi'] == '' or req['Gameplay Position'] == '' or req['Tele-op Charge Station'] == '':
@@ -59,34 +61,36 @@ def api():
         else:
             req['Auto Charge Station'] = 12 if req['Auto Charge Station'] == 'engaged' else (8 if req['Auto Charge Station'] == 'engaged' else 0)
             req['Tele-op Charge Station'] = 10 if req['Tele-op Charge Station'] == 'engaged' else (6 if req['Tele-op Charge Station'] == 'not engaged' else 0)
-            changedNumbers.append(req['Team Number'])
-            print(changedNumbers, req['Team Number'])
+            fakeChangedNumber.append(req['Team Number'])
+            print(fakeChangedNumber, req['Team Number'])
             storedRequest.append(req)
             currentCount = len(storedRequest)
-        if currentCount == 3:
-            addData(storedRequest)
-            storedRequest = []
-            notEmpty = True 
-        if notEmpty:
-            if currentCount > 2:
-                updateFinalWorksheet()
-            elif currentCount > 1:  
-                updateTotal()
-                updateAnalysis()
-            elif currentCount > 0:
-                updateAutonomous()
-                updateTele()
-        else:
-            check()
+            if currentCount == 3:
+                addData(storedRequest)
+                storedRequest = []
+                notEmpty = True 
+                changedNumbers = fakeChangedNumber.copy()
+                fakeChangedNumber = []
+                if notEmpty:
+                    updateAll()
+                else:
+                    check()
+
 
     return render_template('submissionForm.html', templates='templates')
 
 @app.route('/data')
 def data():
-    global deleteOrNot, changedNumbers
-    teamList = updateStatBox(deleteOrNot, changedNumbers)
-    deleteOrNot = False
-    changedNumbers = []
+    global deleteOrNot, changedNumbers, storedRequest
+    if notEmpty:
+        if len(storedRequest) > 0:
+            addData(storedRequest)
+            storedRequest = []
+        teamList = updateStatBox(deleteOrNot, changedNumbers)
+        deleteOrNot = False
+        changedNumbers = []
+    else:
+        teamList = []
     createHTML()
     return render_template('spreadSheetData.html', templates = 'template', teamList = teamList)
 
