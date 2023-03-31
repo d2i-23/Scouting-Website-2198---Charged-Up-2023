@@ -55,7 +55,7 @@ def api():
         req['Auto Charge Station'] = 12 if req['Auto Charge Station'] == 'engaged' else (8 if req['Auto Charge Station'] == 'engaged' else 0)
         req['Tele-op Charge Station'] = 10 if req['Tele-op Charge Station'] == 'engaged' else (6 if req['Tele-op Charge Station'] == 'not engaged' else 0)
         addData([req])
-        #updateAll()
+        updateAll()
     return render_template('submissionForm.html', templates='templates')
 
 @app.route('/data')
