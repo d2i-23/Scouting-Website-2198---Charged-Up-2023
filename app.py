@@ -18,7 +18,7 @@ def check():
     global worksheet
     worksheet = pd.DataFrame(mainWorkSheet.get_worksheet(0).get_all_records())
     return not worksheet.empty
-
+1
 notEmpty = check()
 
 def processRawData(dataFrame):
@@ -57,30 +57,10 @@ def api():
        
         global storedRequest, notEmpty, fakeChangedNumber, changedNumbers
         req = request.form.to_dict()
-        print(req)
-        print(storedRequest)
-        if req['Team Number'] == '' or req['Match Number'] == '' or req['Alliance Color'] == '' or req['W/L'] == '' or req['Auto Charge Station'] == '' or req['Auto Taxi'] == '' or req['Gameplay Position'] == '' or req['Tele-op Charge Station'] == '':
-            #This ridiculously long if statement is to a precaution for if the form bypasses the submission requirement by refreshing the page after previously inputting something
-            pass
-        else:
-            req['Auto Charge Station'] = 12 if req['Auto Charge Station'] == 'engaged' else (8 if req['Auto Charge Station'] == 'engaged' else 0)
-            req['Tele-op Charge Station'] = 10 if req['Tele-op Charge Station'] == 'engaged' else (6 if req['Tele-op Charge Station'] == 'not engaged' else 0)
-            fakeChangedNumber.append(req['Team Number'])
-            print(fakeChangedNumber, req['Team Number'])
-            storedRequest.append(req)
-            currentCount = len(storedRequest)
-            if currentCount >= 3:
-                addData(storedRequest)
-                storedRequest = []
-                notEmpty = True 
-                changedNumbers = fakeChangedNumber.copy()
-                fakeChangedNumber = []
-                if notEmpty:
-                    updateAll()
-                else:
-                    check()
-
-
+        storedRequest.append(req)
+        if len(storedRequest) > 3:
+            addData(storedRequest)
+            storedRequest = []
     return render_template('submissionForm.html', templates='templates')
 
 @app.route('/data')

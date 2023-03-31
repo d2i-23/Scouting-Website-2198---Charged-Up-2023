@@ -23,7 +23,7 @@ form.addEventListener('submit', (e) => {
         $('#teleChargeStation').val() === ''
     ){
         e.preventDefault()
-        alert('Form incomplete')
+        alert('Form uncompleted')
     }
 })
 
