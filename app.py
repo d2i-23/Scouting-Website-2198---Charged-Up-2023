@@ -1,24 +1,20 @@
 from flask import Flask, render_template, redirect, request, url_for
 import pandas as pd
 import gspread as gs 
-from statboxFormating import updateStatBox, createHTML
-from updateSpreadsheet import updateTele, updateAnalysis, updateAutonomous, updateFinalWorksheet, updateTotal, updateAll
+from statboxFormating import createHTML
+from updateSpreadsheet import updateAll
 
 
 app = Flask(__name__, static_folder="./static")
 gc = gs.service_account('googleService.json')
 mainWorkSheet = gc.open_by_url('https://docs.google.com/spreadsheets/d/1NPK8B3CFtDfY_CaPi3BkOUvlktXQY2y3SsNFlIXqhhs/edit#gid=0')
 worksheet = pd.DataFrame()
-deleteOrNot = True
-changedNumbers = []
-fakeChangedNumber = []
-storedRequest = []
 
 def check():
     global worksheet
     worksheet = pd.DataFrame(mainWorkSheet.get_worksheet(0).get_all_records())
     return not worksheet.empty
-1
+
 notEmpty = check()
 
 def processRawData(dataFrame):
@@ -51,55 +47,22 @@ def index():
 
 @app.route('/api', methods = ['GET', 'POST'])
 def api():
-    
+
     global deleteOrNot
     if request.method == 'POST':
-       
         global storedRequest, notEmpty, fakeChangedNumber, changedNumbers
         req = request.form.to_dict()
-        storedRequest.append(req)
-        if len(storedRequest) > 3:
-            addData(storedRequest)
-            storedRequest = []
+        req['Auto Charge Station'] = 12 if req['Auto Charge Station'] == 'engaged' else (8 if req['Auto Charge Station'] == 'engaged' else 0)
+        req['Tele-op Charge Station'] = 10 if req['Tele-op Charge Station'] == 'engaged' else (6 if req['Tele-op Charge Station'] == 'not engaged' else 0)
+        addData([req])
+        #updateAll()
     return render_template('submissionForm.html', templates='templates')
 
 @app.route('/data')
 def data():
-    global deleteOrNot, changedNumbers, storedRequest
-    if notEmpty:
-        if len(storedRequest) > 0:
-            addData(storedRequest)
-            storedRequest = []
-        teamList = updateStatBox(deleteOrNot, changedNumbers)
-        deleteOrNot = False
-        changedNumbers = []
-    else:
-        teamList = []
-    createHTML()
+    teamList = createHTML()
+    print(teamList)
     return render_template('spreadSheetData.html', templates = 'template', teamList = teamList)
-
-@app.route('/cantFindMe', methods = ['GET', 'POST'])
-def portal():
-    if request.method == 'POST':
-        global changedNumber
-        req = request.form.to_dict()
-        if req['passCode'] == '21982198':
-            updateAll()
-            teamList = updateStatBox(True, changedNumbers)
-        
-        elif req['passCode'] == 'clearEverything123':
-            for i in range(0,6):
-                mainWorkSheet.get_worksheet(i).clear()
-                print('yo')
-            updateStatBox(True, trueDelete = True)
-            changedNumber = []
-
-        elif req['passCode'] == 'resetJson067':
-            teamList = updateStatBox(True, changedNumber = [])
-            changedNumbers = []
-            #this is for if the data had to be resetted or restored to a certain point in time 
-            
-    return render_template('secretPage.html', templates = 'template' )
 
 # main driver function
 if __name__ == '__main__':

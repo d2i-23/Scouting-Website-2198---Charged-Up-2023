@@ -3,9 +3,10 @@ import gspread as gs
 
 gc = gs.service_account('googleService.json')
 mainWorkSheet = gc.open_by_url('https://docs.google.com/spreadsheets/d/1NPK8B3CFtDfY_CaPi3BkOUvlktXQY2y3SsNFlIXqhhs/edit#gid=0')
-
+worksheet = pd.DataFrame()
 
 def updateAutonomous():
+    global worksheet
     worksheet = pd.DataFrame(mainWorkSheet.get_worksheet(0).get_all_records())
     processData = worksheet[['Team Number','Lower Auto Score', 'Middle Auto Score', 'Upper Auto Score', 'Auto Charge Station']]
     processData['Count'] = 1
@@ -17,7 +18,6 @@ def updateAutonomous():
     autoWordSheet.update([processData.columns.values.tolist()] + processData.values.tolist())
 
 def updateTele():
-    worksheet = pd.DataFrame(mainWorkSheet.get_worksheet(0).get_all_records())
     processData = worksheet[['Team Number','Lower Total Score', 'Middle Total Score', 'Upper Total Score', 'Tele-op Charge Station','Lower Auto Score', 'Middle Auto Score', 'Upper Auto Score']]
     processData['Count'] = 1
     processData['Lower Tele-op Score'] = processData['Lower Total Score'] - processData['Lower Auto Score']
@@ -44,7 +44,6 @@ def updateTotal():
     mainWorkSheet.get_worksheet(3).update([newtotalWorksheet.columns.values.tolist()] + newtotalWorksheet.values.tolist())
 
 def updateAnalysis():
-    worksheet = pd.DataFrame(mainWorkSheet.get_worksheet(0).get_all_records())
     processData = worksheet
     processData = processData.drop(['Match Number', 'Alliance Color', 'Comment'], axis = 1)
     processData1 = processData[['Team Number', 'W/L', 'Auto Taxi', 'Gameplay Position']].groupby('Team Number', as_index = True).apply(lambda x: (x[x == 'TRUE']).count()/x.count())[['W/L', 'Auto Taxi', 'Gameplay Position']]
