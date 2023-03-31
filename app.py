@@ -7,7 +7,8 @@ from updateSpreadsheet import updateAll
 
 app = Flask(__name__, static_folder="./static")
 gc = gs.service_account('googleService.json')
-mainWorkSheet = gc.open_by_url('https://docs.google.com/spreadsheets/d/1NPK8B3CFtDfY_CaPi3BkOUvlktXQY2y3SsNFlIXqhhs/edit#gid=0'worksheet = pd.DataFrame(mainWorkSheet.get_worksheet(0).get_all_records())
+mainWorkSheet = gc.open_by_url('https://docs.google.com/spreadsheets/d/1NPK8B3CFtDfY_CaPi3BkOUvlktXQY2y3SsNFlIXqhhs/edit#gid=0')
+worksheet = pd.DataFrame(mainWorkSheet.get_worksheet(0).get_all_records())
 
 
 def processRawData(dataFrame):
