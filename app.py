@@ -7,15 +7,8 @@ from updateSpreadsheet import updateAll
 
 app = Flask(__name__, static_folder="./static")
 gc = gs.service_account('googleService.json')
-mainWorkSheet = gc.open_by_url('https://docs.google.com/spreadsheets/d/1NPK8B3CFtDfY_CaPi3BkOUvlktXQY2y3SsNFlIXqhhs/edit#gid=0')
-worksheet = pd.DataFrame()
+mainWorkSheet = gc.open_by_url('https://docs.google.com/spreadsheets/d/1NPK8B3CFtDfY_CaPi3BkOUvlktXQY2y3SsNFlIXqhhs/edit#gid=0'worksheet = pd.DataFrame(mainWorkSheet.get_worksheet(0).get_all_records())
 
-def check():
-    global worksheet
-    worksheet = pd.DataFrame(mainWorkSheet.get_worksheet(0).get_all_records())
-    return not worksheet.empty
-
-notEmpty = check()
 
 def processRawData(dataFrame):
     idList = ['Team Number', 'Match Number', 'Lower Cube Scored', 'Middle Cube Scored', 'Upper Cube Scored', 'Lower Cone Scored', 'Upper Cone Scored', 'Middle Cone Scored', 'Lower Auto Score', 'Middle Auto Score', 'Upper Auto Score', 'Lower Total Score', 'Middle Total Score', 'Upper Total Score']
