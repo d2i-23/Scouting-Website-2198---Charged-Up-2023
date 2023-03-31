@@ -19,7 +19,6 @@ def processRawData(dataFrame):
     return dataFrame
 
 def addData(dictionary):
-    global storedRequest
     dataframe = pd.DataFrame()
     for i in dictionary:
         testData = pd.DataFrame(i, index = [0])
@@ -41,10 +40,7 @@ def index():
 
 @app.route('/api', methods = ['GET', 'POST'])
 def api():
-
-    global deleteOrNot
     if request.method == 'POST':
-        global storedRequest, notEmpty, fakeChangedNumber, changedNumbers
         req = request.form.to_dict()
         req['Auto Charge Station'] = 12 if req['Auto Charge Station'] == 'engaged' else (8 if req['Auto Charge Station'] == 'engaged' else 0)
         req['Tele-op Charge Station'] = 10 if req['Tele-op Charge Station'] == 'engaged' else (6 if req['Tele-op Charge Station'] == 'not engaged' else 0)
