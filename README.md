@@ -1,5 +1,5 @@
 # Scouting-Website-2198---Charged-Up-2023
-This is the scouting website for the 2023 charged up for FRC. 
+This is the scouting website I made for the 2023 charged up for FRC. 
 
 To run this, you need VS code as the IDE and an internet connection. When you are in VS code, you also need to run this in the venv virtual environment. 
 
