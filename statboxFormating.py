@@ -1,11 +1,10 @@
 import pandas as pd
 import gspread as gs
-import json
-import os
+from updateSpreadSheet import spreadSheetLink
 #make this crack into a function 
 
 gc = gs.service_account('googleService.json')
-mainWorkSheet = gc.open_by_url('https://docs.google.com/spreadsheets/d/1NPK8B3CFtDfY_CaPi3BkOUvlktXQY2y3SsNFlIXqhhs/edit#gid=0')
+mainWorkSheet = gc.open_by_url(spreadSheetLink)
 folder_path = 'jsonSaves'
 
 def createHTML():
