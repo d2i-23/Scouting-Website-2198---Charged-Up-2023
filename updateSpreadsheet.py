@@ -1,8 +1,9 @@
 import pandas as pd
 import gspread as gs 
 
+spreadSheetLink = 'your spreadSheet link'
 gc = gs.service_account('googleService.json')
-mainWorkSheet = gc.open_by_url('https://docs.google.com/spreadsheets/d/1NPK8B3CFtDfY_CaPi3BkOUvlktXQY2y3SsNFlIXqhhs/edit#gid=0')
+mainWorkSheet = gc.open_by_url(spreadSheetLink)
 worksheet = pd.DataFrame()
 
 def updateAutonomous():
