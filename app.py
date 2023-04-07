@@ -3,11 +3,12 @@ import pandas as pd
 import gspread as gs 
 from statboxFormating import createHTML
 from updateSpreadsheet import updateAll
+from updateSpreadSheet import spreadSheetLink
 
 
 app = Flask(__name__, static_folder="./static")
 gc = gs.service_account('googleService.json')
-mainWorkSheet = gc.open_by_url('https://docs.google.com/spreadsheets/d/1NPK8B3CFtDfY_CaPi3BkOUvlktXQY2y3SsNFlIXqhhs/edit#gid=0')
+mainWorkSheet = gc.open_by_url(spreadSheetLink)
 worksheet = pd.DataFrame(mainWorkSheet.get_worksheet(0).get_all_records())
 
 
@@ -52,7 +53,7 @@ def api():
 def data():
     teamList = createHTML()
     print(teamList)
-    return render_template('spreadSheetData.html', templates = 'template', teamList = teamList)
+    return render_template('spreadSheetData.html', templates = 'template', teamList = teamList, spreadSheetLink = spreadSheetLink)
 
 # main driver function
 if __name__ == '__main__':
