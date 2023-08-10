@@ -8,4 +8,8 @@ Before launching it however, you need to open an (empty) google spreadsheet and 
 Afterwards, paste the JSON at googleService.json in order to gain permission for accessing the bot, and provide the link to the spreadsheet(make sure that the spreadsheet is accessible to the bot by giving it the necessary perms) at the updateSpreadsheet.py file at the variable spreadSheetLink as a string. With that, you should be good to go! 
 
 Preview of the app on mobile:
+
+
+
+
 ![image](https://github.com/d2i-23/Scouting-Website-2198---Charged-Up-2023/assets/122646162/190e6c79-0591-4df1-ab89-be36332a9a0e)
