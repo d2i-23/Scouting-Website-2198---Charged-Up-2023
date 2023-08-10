@@ -10,6 +10,5 @@ Afterwards, paste the JSON in a new file called googleService.json in order to g
 Preview of the app on mobile:
 
 
+![image](https://github.com/d2i-23/Scouting-Website-2198---Charged-Up-2023/assets/122646162/4677016f-2810-4342-beae-2f11e5892722)
 
-
-![image](https://github.com/d2i-23/Scouting-Website-2198---Charged-Up-2023/assets/122646162/190e6c79-0591-4df1-ab89-be36332a9a0e)
